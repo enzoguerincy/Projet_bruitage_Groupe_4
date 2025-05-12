@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageUtils {
     
@@ -51,4 +53,128 @@ public class ImageUtils {
    	   }
    	   return pourcentage_ressemblance/(hauteur*largeur);
    }
+   
+   /**
+    * Extrait tous les patchs s×s d'une image, avec leur position.
+    * @param image L'image d'entrée.
+    * @param s La taille du patch (s × s).
+    * @return Liste des patchs (image + position).
+    */
+   public static List<Patch> extractPatchs(BufferedImage image, int s) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> patchs = new ArrayList<>();
+
+       for (int y = 0; y <= hauteur - s; y++) {
+           for (int x = 0; x <= largeur - s; x++) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+           }
+       }
+
+       return patchs;
+   }
+   
+   
+   /**
+    * Reconstitue une image à partir des patchs et de leur position.
+    * En cas de recouvrement, fait la moyenne des pixels.
+    *
+    * @param patchs La liste des patchs (image + position).
+    * @param lignes Hauteur de l'image finale.
+    * @param colonnes Largeur de l'image finale.
+    * @return Image reconstruite.
+    */
+   public static BufferedImage reconstructPatchs(List<Patch> patchs, int lignes, int colonnes) {
+       BufferedImage imageReconstruite = new BufferedImage(colonnes, lignes, BufferedImage.TYPE_INT_RGB);
+
+       // Pour gérer la moyenne des pixels superposés
+       int[][] sommePixels = new int[lignes][colonnes];
+       int[][] compteurPixels = new int[lignes][colonnes];
+
+       for (Patch patch : patchs) {
+           BufferedImage imgPatch = patch.image;
+           int patchSize = imgPatch.getWidth(); // on suppose carré
+
+           for (int dy = 0; dy < patchSize; dy++) {
+               for (int dx = 0; dx < patchSize; dx++) {
+                   int x = patch.x + dx;
+                   int y = patch.y + dy;
+
+                   if (x < colonnes && y < lignes) {
+                       Color couleur = new Color(imgPatch.getRGB(dx, dy));
+                       int gris = couleur.getRed(); // R = G = B
+
+                       sommePixels[y][x] += gris;
+                       compteurPixels[y][x]++;
+                   }
+               }
+           }
+       }
+
+       // Crée l'image finale en divisant les sommes par les compteurs
+       for (int y = 0; y < lignes; y++) {
+           for (int x = 0; x < colonnes; x++) {
+               int moyenne = compteurPixels[y][x] == 0 ? 0 : sommePixels[y][x] / compteurPixels[y][x];
+               Color c = new Color(moyenne, moyenne, moyenne);
+               imageReconstruite.setRGB(x, y, c.getRGB());
+           }
+       }
+
+       return imageReconstruite;
+   }
+   	
+   
+   /**
+    * Découpe l'image en n imagettes carrées de taille W × W à des positions aléatoires valides.
+    * @param image L'image source.
+    * @param W La taille de chaque imagette (W × W).
+    * @param n Le nombre d’imagettes à extraire.
+    * @return Liste des imagettes Patch (image + position).
+    */
+   public static List<Patch> decoupeImage(BufferedImage image, int W, int n) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> imagettes = new ArrayList<>();
+       Random random = new Random();
+
+       for (int i = 0; i < n; i++) {
+           int x = random.nextInt(largeur - W + 1); // position x valide
+           int y = random.nextInt(hauteur - W + 1); // position y valide
+           BufferedImage imagette = image.getSubimage(x, y, W, W);
+           imagettes.add(new Patch(imagette, x, y));
+       }
+
+       return imagettes;
+   }
+   
+   
+   /**
+    * Transforme chaque patch en un vecteur de taille s².
+    * @param patchs La liste des patchs (image + position).
+    * @return Liste de vecteurs (double[]) et leur position.
+    */
+   public static List<Vecteur> vectorPatchs(List<Patch> patchs) {
+       List<Vecteur> listvecteurs = new ArrayList<>();
+
+       for (Patch p : patchs) {
+           BufferedImage img = p.image;
+           int w = img.getWidth(); // on suppose carré
+           double[] vecteur = new double[w * w];
+           int index = 0;
+
+           for (int y = 0; y < w; y++) {
+               for (int x = 0; x < w; x++) {
+                   Color c = new Color(img.getRGB(x, y));
+                   vecteur[index++] = c.getRed(); // ou (R + G + B)/3 si couleur
+               }
+           }
+
+           listvecteurs.add(new Vecteur(vecteur, p.x, p.y));
+       }
+
+       return listvecteurs;
+   }
+   
+   
 }

@@ -90,11 +90,13 @@ public class Main {
             List<Vecteur> vectors = ImageUtils.vectorPatchs(patchs);
 
             // Affichage d’un exemple
+            int compteur = 0;
             System.out.println("Premier vecteur (patch 0) :");
             for (int i = 0; i < vectors.get(0).vecteurs.length; i++) {
                 System.out.print(vectors.get(0).vecteurs[i] + " ");
+                compteur++;
             }
-            System.out.println();
+            System.out.println(compteur);
             
         } catch (Exception e) {
             e.printStackTrace();

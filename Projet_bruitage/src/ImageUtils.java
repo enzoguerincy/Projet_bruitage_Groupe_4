@@ -75,6 +75,81 @@ public class ImageUtils {
        return patchs;
    }
    
+   public static List<Patch> extractPatchs2(BufferedImage image, int s) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> patchs = new ArrayList<>();
+       int x_compt = 0;
+       int y_compt = 0;
+
+       for (int y = 0; y <= hauteur - s; y=y+s/2) {
+    	   x_compt = 0;
+           for (int x = 0; x <= largeur - s; x=x+s/2) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+               x_compt+=s/2;
+           }
+           y_compt +=s/2;
+       }
+       if  (x_compt < largeur - s) {
+    	   for (int x = 0; x <= largeur - s; x=x+s/2) {
+               BufferedImage patchImage = image.getSubimage(x,largeur-s , s, s);
+               patchs.add(new Patch(patchImage, x,  hauteur-s));
+           }
+       }
+       if  (y_compt < largeur - s) {
+	       for (int y = 0; y <= hauteur - s; y=y+s/2) {
+	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
+	           patchs.add(new Patch(patchImage, largeur-s, y));
+	       }
+       }
+       BufferedImage patchImage = image.getSubimage(largeur-s,hauteur-s , s, s);
+       patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
+       
+
+       return patchs;
+   }
+   
+   public static List<Patch> extractPatchs3(BufferedImage image, double pers) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       int s =  (int) (image.getWidth() * pers);
+       System.out.println(s);
+       System.out.println(largeur);
+       System.out.println(largeur - s);
+       int decal = s/3+1;
+       int x_compt = 0;
+       int y_compt = 0;
+       List<Patch> patchs = new ArrayList<>();
+
+       for (int y = 0; y <= hauteur - s; y=y+decal) {
+    	   x_compt = 0;
+           for (int x = 0; x <= largeur - s; x=x+decal) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+               x_compt+=decal;
+           }
+           y_compt+=decal;
+       }
+       if  (x_compt < largeur - s) {
+	       for (int x = 0; x <= largeur - s; x=x+decal) {
+	           BufferedImage patchImage = image.getSubimage(x,hauteur-s , s, s);
+	           patchs.add(new Patch(patchImage, x, hauteur-s));
+	       }
+       }
+       if  (y_compt < largeur - s) {
+	       for (int y = 0; y <= hauteur - s; y=y+decal) {
+	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
+	           patchs.add(new Patch(patchImage, largeur-s, y));
+	       }
+       }
+       BufferedImage patchImage = image.getSubimage((largeur-s),(hauteur-s) , s, s);
+       patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
+       
+
+       return patchs;
+   }
+   
    
    /**
     * Reconstitue une image à partir des patchs et de leur position.
@@ -147,8 +222,7 @@ public class ImageUtils {
 
        return imagettes;
    }
-   
-   
+     
    /**
     * Transforme chaque patch en un vecteur de taille s².
     * @param patchs La liste des patchs (image + position).

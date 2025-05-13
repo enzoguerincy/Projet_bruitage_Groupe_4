@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,33 +31,27 @@ public class CollectionPatch {
         return patchs;
     }
     
-    public CollectionVecteur vectorPatch(int s) {
-        CollectionVecteur collection = new CollectionVecteur();
+    public static List<Vecteur> vectorPatchs(List<Patch> patchs) {
+        List<Vecteur> listvecteurs = new ArrayList<>();
 
-        for (Patch patch : patchs) {
-            BufferedImage img = patch.image;
-            double[] vecteur = new double[s * s];
+        for (Patch p : patchs) {
+            BufferedImage img = p.image;
+            int w = img.getWidth(); // on suppose carré
+            double[] vecteur = new double[w * w];
             int index = 0;
 
-            for (int j = 0; j < s; j++) {
-                for (int i = 0; i < s; i++) {
-                    int rgb = img.getRGB(i, j);
-                    
-                    
-                    int r = (rgb >> 16) & 0xff;
-                    int g = (rgb >> 8) & 0xff;
-                    int b = rgb & 0xff;
-                    double gray = (r + g + b) / 3.0;
-
-                    vecteur[index++] = gray;
+            for (int y = 0; y < w; y++) {
+                for (int x = 0; x < w; x++) {
+                    Color c = new Color(img.getRGB(x, y));
+                    vecteur[index++] = c.getRed(); // ou (R + G + B)/3 si couleur
                 }
             }
 
-            Vecteur v = new Vecteur(vecteur, patch.x, patch.y);
-            collection.ajouterVecteur(v);
+            listvecteurs.add(new Vecteur(vecteur, p.x, p.y));
         }
 
-        return collection;
+        return listvecteurs;
     }
+
     
 }

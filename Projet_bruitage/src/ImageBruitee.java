@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageUtils {
+public class ImageBruitee {
     
 	/**
  	* Ajoute du bruit gaussien à une image.

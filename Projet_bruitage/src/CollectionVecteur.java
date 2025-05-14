@@ -136,4 +136,29 @@ public class CollectionVecteur {
         return baseOrthonormale;
     }
 
+    // Méthode auxiliaire à ajouter aussi dans CollectionVecteur
+    private double produitScalaire(Vecteur v1, Vecteur v2) {
+        double sum = 0.0;
+        for (int i = 0; i < v1.dimension(); i++) {
+            sum += v1.valeurs[i] * v2.valeurs[i];
+        }
+        return sum;
+    }
+
+    public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) {
+        List<Vecteur> contributions = new ArrayList<>();
+
+        for (Vecteur vi : Vc) {
+            double[] coeffs = new double[U.size()];
+
+            for (int j = 0; j < U.size(); j++) {
+                Vecteur uj = U.get(j);
+                coeffs[j] = produitScalaire(vi, uj);
+            }
+
+            contributions.add(new Vecteur(coeffs));
+        }
+
+        return contributions;
+    }
 }

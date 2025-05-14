@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.math3.linear.*;
 
 public class CollectionVecteur {
     private List<Vecteur> vecteurs;
@@ -93,4 +94,46 @@ public class CollectionVecteur {
             this.vecteursCentres = vecteursCentres;
         }
     }
+    
+    public static List<Vecteur> acp(List<Vecteur> vecteurs) {
+        int nbVecteurs = vecteurs.size();
+        int dim = vecteurs.get(0).dimension();
+
+        // 1. Calcul du vecteur moyen
+        double[] moyenne = new double[dim];
+        for (Vecteur v : vecteurs) {
+            for (int i = 0; i < dim; i++) {
+                moyenne[i] += v.valeurs[i];
+            }
+        }
+        for (int i = 0; i < dim; i++) {
+            moyenne[i] /= nbVecteurs;
+        }
+
+        // 2. Centrage des vecteurs
+        double[][] donneesCentrees = new double[nbVecteurs][dim];
+        for (int i = 0; i < nbVecteurs; i++) {
+            Vecteur v = vecteurs.get(i);
+            for (int j = 0; j < dim; j++) {
+                donneesCentrees[i][j] = v.valeurs[j] - moyenne[j];
+            }
+        }
+
+        // 3. Matrice de covariance
+        RealMatrix M = MatrixUtils.createRealMatrix(donneesCentrees);
+        RealMatrix covariance = M.transpose().multiply(M).scalarMultiply(1.0 / nbVecteurs);
+
+        // 4. Décomposition en valeurs propres
+        EigenDecomposition eig = new EigenDecomposition(covariance);
+
+        // 5. Construction de la base orthonormale (vecteurs propres)
+        List<Vecteur> baseOrthonormale = new ArrayList<>();
+        for (int i = 0; i < dim; i++) {
+            double[] composantes = eig.getEigenvector(i).toArray();
+            baseOrthonormale.add(new Vecteur(composantes));
+        }
+
+        return baseOrthonormale;
+    }
+
 }

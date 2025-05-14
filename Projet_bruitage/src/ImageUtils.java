@@ -149,11 +149,4 @@ public class ImageUtils {
    }
    
    
-   /**
-    * Transforme chaque patch en un vecteur de taille s².
-    * @param patchs La liste des patchs (image + position).
-    * @return Liste de vecteurs (double[]) et leur position.
-    */
-   
-   
 }

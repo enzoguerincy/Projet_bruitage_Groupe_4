@@ -78,6 +78,9 @@ public class Main {
             CollectionVecteur.MoyCovResult result = collection.MoyCov();
             System.out.println("\nMoyenne[0] = " + result.moyenne.valeurs[0]);
             System.out.println("Covariance[0][0] = " + result.covariance[0][0]);
+            
+            List<Vecteur> compoACP = CollectionVecteur.acp(vectors);
+            System.out.println("ACP = " + compoACP);
 
         } catch (IOException e) {
             e.printStackTrace();

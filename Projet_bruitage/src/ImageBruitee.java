@@ -119,7 +119,7 @@ public class ImageBruitee {
                Color c = new Color(moyenne, moyenne, moyenne);
                imageReconstruite.setRGB(x, y, c.getRGB());
            }
-       }
+       } 
 
        return imageReconstruite;
    }

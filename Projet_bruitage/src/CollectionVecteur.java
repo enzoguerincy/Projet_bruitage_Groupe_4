@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.linear.*;
@@ -145,7 +147,7 @@ public class CollectionVecteur {
         return sum;
     }
 
-    public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) {
+    public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) { 
         List<Vecteur> contributions = new ArrayList<>();
 
         for (Vecteur vi : Vc) {
@@ -160,5 +162,75 @@ public class CollectionVecteur {
         }
 
         return contributions;
+    }
+    
+    /**
+     * Reconstruit un vecteur dans l’espace d’origine à partir d’un vecteur projeté (contribution).
+     *
+     * @param vecteurContributions Le vecteur de contribution (taille réduite, ex : 20)
+     * @param basePCA              La base orthonormale de l’ACP (matrice [64][20] si patchs 8×8)
+     * @param vecteurMoyen         Le vecteur moyen des données originales (taille 64)
+     * @return Le vecteur reconstruit dans l’espace original (taille 64)
+     */
+    public static double[] reconstruireVecteurComplet(double[] vecteurContributions, double[][] basePCA, double[] vecteurMoyen) {
+        int dimensionOriginale = basePCA.length;      // ex: 64
+        int dimensionReduite = basePCA[0].length;      // ex: 20
+        double[] vecteurReconstruit = new double[dimensionOriginale];
+
+        for (int i = 0; i < dimensionOriginale; i++) {
+            for (int j = 0; j < dimensionReduite; j++) {
+                vecteurReconstruit[i] += basePCA[i][j] * vecteurContributions[j];
+            }
+            vecteurReconstruit[i] += vecteurMoyen[i];
+        }
+
+        return vecteurReconstruit;
+    }
+
+    /**
+     * Transforme un vecteur de taille s² en une image carrée de taille s×s.
+     *
+     * @param vecteur Le vecteur représentant le patch (taille s×s)
+     * @param taillePatch La taille du patch (s)
+     * @return Une image BufferedImage correspondant au patch.
+     */
+    public static BufferedImage vecteurVersImage(double[] vecteur, int taillePatch) {
+        if (vecteur.length != taillePatch * taillePatch) {
+            throw new IllegalArgumentException("Le vecteur ne correspond pas à un patch de " + taillePatch + "×" + taillePatch);
+        }
+
+        BufferedImage image = new BufferedImage(taillePatch, taillePatch, BufferedImage.TYPE_BYTE_GRAY);
+
+        for (int ligne = 0; ligne < taillePatch; ligne++) {
+            for (int colonne = 0; colonne < taillePatch; colonne++) {
+                int valeur = (int) Math.round(vecteur[ligne * taillePatch + colonne]);
+                valeur = Math.min(255, Math.max(0, valeur)); // Clamp entre 0 et 255
+                Color couleur = new Color(valeur, valeur, valeur);
+                image.setRGB(colonne, ligne, couleur.getRGB()); // colonne = x, ligne = y
+            }
+        }
+
+        return image;
+    }
+
+    /**
+     * Reconstruit une liste de patchs à partir de leurs vecteurs projetés (contributions PCA).
+     *
+     * @param projections La liste des vecteurs projetés (contributions) + position (classe Vecteur)
+     * @param basePCA     La base PCA (matrice [64][nbComposantes])
+     * @param vecteurMoyen Le vecteur moyen (taille 64)
+     * @param taillePatch La taille des patchs (ex: 8)
+     * @return Liste des patchs reconstruits (image + position)
+     */
+    public static List<Patch> reconstruirePatchsDepuisContributions(List<Vecteur> projections, double[][] basePCA, double[] vecteurMoyen, int taillePatch) {
+        List<Patch> patchsReconstitues = new ArrayList<>();
+
+        for (Vecteur projection : projections) {
+            double[] vecteurReconstruit = reconstruireVecteurComplet(projection.valeurs, basePCA, vecteurMoyen);
+            BufferedImage imagePatch = vecteurVersImage(vecteurReconstruit, taillePatch);
+            patchsReconstitues.add(new Patch(imagePatch, projection.x, projection.y));
+        }
+
+        return patchsReconstitues;
     }
 }

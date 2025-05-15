@@ -26,7 +26,7 @@ public class ImageFinale {
 	    return sommeErreursCarrees / (width * height);
 	}
 	
-	public double psnr(float mse) {
+	public double psnr(double mse) {
 		return (10 * Math.log10(255 / mse));
 	}
 	

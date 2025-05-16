@@ -1,1 +1,43 @@
 # Projet_bruitage_Groupe_4
+
+## Table des matières
+
+1. [Description](#description)
+2. [Fonctionnalités](#fonctionnalités)
+3. [Installation](#installation)
+4. [Utilisation](#utilisation)
+
+---
+
+## Description
+
+Ce porte sur le débruitage d'images par Analyse en Composantes Principales (ACP). Plus précisément, l’objectif principal est d'implémenter une méthode performante de réduction de bruit dans des images numériques, en se basant sur la parcimonie, la redondance et régularité intrinsèque des données visuelles.
+
+## Fonctionnalités
+
+- Ajout de bruit gaussien contrôlé à une image
+- Extraction de patchs (globale ou locale)
+- Vectorisation des patchs pour l’ACP
+- Calcul de :
+  - Vecteur moyen
+  - Matrice de covariance
+  - Base ACP (via décomposition SVD)
+- Projection et seuillage (dur / doux)
+- Reconstruction de l’image par fusion pondérée des patchs
+- Comparaison visuelle des résultats (bruitée vs. débruitée)
+
+## Installation
+
+1. Pré-requis :
+  - Java JDK (version ≥ 11)
+  - IDE recommandé : Eclipse, IntelliJ, ou VS Code
+  - Librairie externe : Apache Commons Math 3.6.1
+    
+2. Ajout de la librairie externe
+  - Télécharger commons-math3-3.6.1.jar
+  - Dans Eclipse :
+    -Clic droit sur le projet → Build Path → Add External Archives...
+    -Sélectionner commons-math3-3.6.1.jar
+   
+## Utilisation
+

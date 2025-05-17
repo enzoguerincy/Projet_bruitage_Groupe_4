@@ -43,6 +43,8 @@ Ce porte sur le débruitage d'images par Analyse en Composantes Principales (ACP
 
 ### 1. Paramètres modifiables (`Main.java`)
 ```java
+// === PARAMÈTRES ===
+String cheminImage = "images_test/lemurien.jpeg";
 double sigma = 50;       // niveau de bruit
 int taillePatch = 8;     // taille des patchs s × s
 double lambda = 30;      // seuil pour seuillage

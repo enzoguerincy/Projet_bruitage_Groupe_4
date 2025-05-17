@@ -41,3 +41,41 @@ Ce porte sur le débruitage d'images par Analyse en Composantes Principales (ACP
    
 ## Utilisation
 
+### 1. Paramètres modifiables (`Main.java`)
+```java
+double sigma = 50;       // niveau de bruit
+int taillePatch = 8;     // taille des patchs s × s
+double lambda = 30;      // seuil pour seuillage
+```
+
+### 2. Modes disponibles
+- **ACP globale** (base unique)
+- **ACP locale** (base recalculée pour chaque bloc de taille `Ws × Ws`)
+- **Seuillage doux** (soft thresholding)
+- **Seuillage dur** (hard thresholding)
+
+### 3. Dossier de sortie
+
+```
+out/
+├── image_bruitee.jpeg
+├── global/
+│   ├── image_debruitee_doux.jpeg
+│   └── image_debruitee_dur.jpeg
+└── local/
+    ├── image_debruitee_doux.jpeg
+    └── image_debruitee_dur.jpeg
+```
+
+---
+
+## Exécution via fichier .jar
+
+Un fichier `.jar` exécutable est également fourni pour lancer directement le projet sans ouvrir l'IDE.
+
+### Lancer le projet :
+```bash
+java -jar DebruitageACP.jar
+```
+
+---

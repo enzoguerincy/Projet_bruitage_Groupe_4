@@ -33,11 +33,11 @@
 -->
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -91,38 +91,46 @@
             <Pane layoutX="-9.0" layoutY="-25.0" prefHeight="919.0" prefWidth="1351.0">
                <children>
                   <Pane layoutX="229.0" layoutY="184.0" prefHeight="665.0" prefWidth="843.0" style="-fx-background-color: #ffffff;" />
-                <AnchorPane layoutY="22.0" minHeight="0.0" minWidth="0.0" prefHeight="906.0" prefWidth="229.0" style="-fx-background-color: #efe9fe;">
+                <AnchorPane layoutY="22.0" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="229.0" style="-fx-background-color: #efe9fe;">
                      <children>
                         <Button layoutX="26.0" layoutY="128.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="178.0" style="-fx-background-color: #e2d5ff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Collection" />
-                        <Pane layoutX="8.0" layoutY="249.0" prefHeight="68.0" prefWidth="220.0" style="-fx-background-color: #efe9fe;">
-                           <children>
-                              <TextArea layoutX="2.0" prefHeight="68.0" prefWidth="220.0" style="-fx-font-weight: bold; -fx-control-inner-background: #efe9fe; -fx-background-color: transparent; -fx-background-insets: 0; -fx-border-color: transparent;" styleClass="-" text="1-Insertion">
-                                 <font>
-                                    <Font size="19.0" />
-                                 </font></TextArea>
-                           </children>
-                        </Pane>
-                        <TextArea layoutX="8.0" layoutY="354.0" prefHeight="68.0" prefWidth="220.0" style="-fx-control-inner-background: #efe9fe; -fx-background-color: transparent; -fx-background-insets: 0; -fx-border-color: transparent;" styleClass="-" text="2-Méthode">
-                           <font>
-                              <Font size="18.0" />
-                           </font></TextArea>
-                        <TextArea layoutX="8.0" layoutY="467.0" prefHeight="68.0" prefWidth="220.0" style="-fx-control-inner-background: #efe9fe; -fx-background-color: transparent; -fx-background-insets: 0; -fx-border-color: transparent;" styleClass="-" text="3-Bruitage">
-                           <font>
-                              <Font size="18.0" />
-                           </font></TextArea>
-                        <TextArea layoutX="8.0" layoutY="580.0" prefHeight="68.0" prefWidth="220.0" style="-fx-control-inner-background: #efe9fe; -fx-background-color: transparent; -fx-background-insets: 0; -fx-border-color: transparent; -fx-alignement: center;" styleClass="-" text="4-Résultat">
-                           <font>
-                              <Font size="18.0" />
-                           </font></TextArea>
                         <Button layoutX="14.0" layoutY="22.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="206.0" style="-fx-background-color: #a54dff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Menu" />
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="245.0" prefHeight="99.0" prefWidth="220.0" style="-fx-font-weight: bold;" text="1-Insertion">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="544.0" prefHeight="68.0" prefWidth="220.0" text="4-Résultat">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="453.0" prefHeight="91.0" prefWidth="220.0" text="3-Bruitage">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Line endX="112.0" layoutX="117.0" layoutY="244.0" startX="-108.0" />
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="350.0" prefHeight="68.0" prefWidth="220.0" text="2-Méthode">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Line endX="117.0" layoutX="112.0" layoutY="350.0" startX="-108.0" />
+                        <Line endX="116.0" layoutX="113.0" layoutY="453.0" startX="-108.0" />
+                        <Line endX="115.0" layoutX="112.0" layoutY="544.0" startX="-108.0" />
                      </children>
                   </AnchorPane>
-                  <Pane layoutX="229.0" layoutY="24.0" prefHeight="887.0" prefWidth="1049.0" style="-fx-background-color: white; -fx-box-shadow: none; -fx-background-insets: 0; -fx-border-color: none;">
+                  <Pane layoutX="229.0" layoutY="24.0" prefHeight="887.0" prefWidth="1121.0" style="-fx-background-color: white; -fx-box-shadow: none; -fx-background-insets: 0; -fx-border-color: none;">
                      <children>
                         <Pane prefHeight="116.0" prefWidth="1049.0" style="-fx-background-color: white;">
                            <children>
-                              <TextArea prefHeight="116.0" prefWidth="1049.0" style="-fx-font-weight: bold; -fx-font-size: 34; -fx-background-color: white;" text="Débruitage par Analyse en Composantes Principales (ACP)" />
-                              <Line endX="946.0" layoutX="101.0" layoutY="116.0" startX="-100.0" />
+                              <Line endX="1020.0" layoutX="101.0" layoutY="116.0" startX="-100.0" />
+                              <Label alignment="CENTER" layoutX="-2.0" prefHeight="116.0" prefWidth="1121.0" style="-fx-font-weight: bold;" text="Débruitage par Analyse en Composantes Principales (ACP)">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                         <ImageView fitHeight="613.0" fitWidth="713.0" layoutX="168.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" />

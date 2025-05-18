@@ -76,6 +76,7 @@ out/
 Un fichier `.jar` exécutable est également fourni pour lancer directement le projet sans ouvrir l'IDE.
 
 ### Lancer le projet :
+Ouvrir le terminal et placez-vous à la racine du projet. 
 ```bash
 java -jar DebruitageACP.jar
 ```

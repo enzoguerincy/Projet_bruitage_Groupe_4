@@ -11,7 +11,7 @@
 
 ## Description
 
-Ce porte sur le débruitage d'images par Analyse en Composantes Principales (ACP). Plus précisément, l’objectif principal est d'implémenter une méthode performante de réduction de bruit dans des images numériques, en se basant sur la parcimonie, la redondance et régularité intrinsèque des données visuelles.
+Ce projet se porte sur le débruitage d'images par Analyse en Composantes Principales (ACP). Plus précisément, l’objectif principal est d'implémenter une méthode performante de réduction de bruit dans des images numériques, en se basant sur la parcimonie, la redondance et régularité intrinsèque des données visuelles.
 
 ## Fonctionnalités
 

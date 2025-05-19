@@ -75,6 +75,84 @@ public class ImageBruitee {
        return patchs;
    }
    
+<<<<<<< HEAD
+=======
+   public static List<Patch> extractPatchs2(BufferedImage image, int s) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> patchs = new ArrayList<>();
+       int x_compt = 0;
+       int y_compt = 0;
+
+       for (int y = 0; y <= hauteur - s; y=y+s/2) {
+    	   x_compt = 0;
+           for (int x = 0; x <= largeur - s; x=x+s/2) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+               x_compt+=s/2;
+           }
+           y_compt +=s/2;
+       }
+       if  (x_compt < largeur - s) {
+    	   for (int x = 0; x <= largeur - s; x=x+s/2) {
+               BufferedImage patchImage = image.getSubimage(x,largeur-s , s, s);
+               patchs.add(new Patch(patchImage, x,  hauteur-s));
+           }
+       }
+       if  (y_compt < largeur - s) {
+	       for (int y = 0; y <= hauteur - s; y=y+s/2) {
+	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
+	           patchs.add(new Patch(patchImage, largeur-s, y));
+	       }
+       }
+       BufferedImage patchImage = image.getSubimage(largeur-s,hauteur-s , s, s);
+       patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
+       
+
+       return patchs;
+   }
+   
+   public static List<Patch> extractPatchs3(BufferedImage image, double pers) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       int s =  (int) (image.getWidth() * pers);
+       System.out.println(s);
+       System.out.println(largeur);
+       System.out.println(largeur - s);
+       int decal = s/3+1;
+       int x_compt = 0;
+       int y_compt = 0;
+       List<Patch> patchs = new ArrayList<>();
+
+       for (int y = 0; y <= hauteur - s; y=y+decal) {
+    	   x_compt = 0;
+           for (int x = 0; x <= largeur - s; x=x+decal) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+               x_compt+=decal;
+           }
+           y_compt+=decal;
+       }
+       if  (x_compt < largeur - s) {
+	       for (int x = 0; x <= largeur - s; x=x+decal) {
+	           BufferedImage patchImage = image.getSubimage(x,hauteur-s , s, s);
+	           patchs.add(new Patch(patchImage, x, hauteur-s));
+	       }
+       }
+       if  (y_compt < largeur - s) {
+	       for (int y = 0; y <= hauteur - s; y=y+decal) {
+	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
+	           patchs.add(new Patch(patchImage, largeur-s, y));
+	       }
+       }
+       BufferedImage patchImage = image.getSubimage((largeur-s),(hauteur-s) , s, s);
+       patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
+       
+
+       return patchs;
+   }
+   
+>>>>>>> main
    
    /**
     * Reconstitue une image à partir des patchs et de leur position.
@@ -119,13 +197,18 @@ public class ImageBruitee {
                Color c = new Color(moyenne, moyenne, moyenne);
                imageReconstruite.setRGB(x, y, c.getRGB());
            }
+<<<<<<< HEAD
        } 
+=======
+       }
+>>>>>>> main
 
        return imageReconstruite;
    }
    	
    
    /**
+<<<<<<< HEAD
     * Découpe l'image en n imagettes carrées de taille W × W à des positions aléatoires valides.
     * @param image L'image source.
     * @param W La taille de chaque imagette (W × W).
@@ -146,6 +229,75 @@ public class ImageBruitee {
        }
 
        return imagettes;
+=======
+    * Découpe toute l’image en blocs de taille Ws × Ws (avec recouvrement partiel si besoin),
+    * et extrait les patchs s × s dans chaque bloc.
+    * @param image Image d'entrée
+    * @param Ws Taille du bloc (ex : 32 ou 64)
+    * @param s Taille des patchs (ex : 8)
+    * @return Liste des patchs (BufferedImage + position)
+    */
+   public static List<Patch> decoupeImage(BufferedImage image, int Ws, int s) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> patchs = new ArrayList<>();
+
+       // Décalage pour le balayage (peut être égal à Ws ou s selon recouvrement souhaité)
+       int pas = Ws;
+
+       // Parcours vertical
+       for (int yBloc = 0; yBloc <= hauteur - s; yBloc += pas) {
+           // Ajuste en bas si on dépasse
+           int yEff = (yBloc + Ws > hauteur) ? hauteur - Ws : yBloc;
+
+           for (int xBloc = 0; xBloc <= largeur - s; xBloc += pas) {
+               // Ajuste à droite si on dépasse
+               int xEff = (xBloc + Ws > largeur) ? largeur - Ws : xBloc;
+
+               // Bloc local (Ws x Ws)
+               BufferedImage bloc = image.getSubimage(xEff, yEff, Ws, Ws);
+
+               // Extraction des patchs s × s dans le bloc
+               for (int y = 0; y <= Ws - s; y++) {
+                   for (int x = 0; x <= Ws - s; x++) {
+                       BufferedImage patchImg = bloc.getSubimage(x, y, s, s);
+                       patchs.add(new Patch(patchImg, xEff + x, yEff + y));
+                   }
+               }
+           }
+       }
+
+       return patchs;
+   }
+
+   
+   
+   /**
+    * Transforme chaque patch en un vecteur de taille s².
+    * @param patchs La liste des patchs (image + position).
+    * @return Liste de vecteurs (double[]) et leur position.
+    */
+   public static List<Vecteur> vectorPatchs(List<Patch> patchs) {
+       List<Vecteur> listvecteurs = new ArrayList<>();
+
+       for (Patch p : patchs) {
+           BufferedImage img = p.image;
+           int w = img.getWidth(); // on suppose carré
+           double[] vecteur = new double[w * w];
+           int index = 0;
+
+           for (int y = 0; y < w; y++) {
+               for (int x = 0; x < w; x++) {
+                   Color c = new Color(img.getRGB(x, y));
+                   vecteur[index++] = c.getRed(); // ou (R + G + B)/3 si couleur
+               }
+           }
+
+           listvecteurs.add(new Vecteur(vecteur, p.x, p.y));
+       }
+
+       return listvecteurs;
+>>>>>>> main
    }
    
    

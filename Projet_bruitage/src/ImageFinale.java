@@ -26,8 +26,16 @@ public class ImageFinale {
 	    return sommeErreursCarrees / (width * height);
 	}
 	
+<<<<<<< HEAD
 	public double psnr(double mse) {
 		return (10 * Math.log10(255 / mse));
 	}
+=======
+	public static double psnr(double mse) {
+	    if (mse == 0) return Double.POSITIVE_INFINITY;
+	    return 10 * Math.log10((255.0 * 255.0) / mse);
+	}
+
+>>>>>>> main
 	
 }

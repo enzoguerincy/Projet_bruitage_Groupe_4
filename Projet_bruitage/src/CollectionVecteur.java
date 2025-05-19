@@ -12,15 +12,7 @@ public class CollectionVecteur {
         this.vecteurs = vecteurs;
         this.nbVecteur = vecteurs.size();
     }
-    
-    public List<Vecteur> getVecteurs() {
-        return vecteurs;
-    }
-    
-    public int getTaille() {
-    	return nbVecteur;
-    }
-  
+
     public Vecteur CalculerVecteurMoyen() {
         int dim = vecteurs.get(0).dimension();
         double[] moyenne = new double[dim];
@@ -96,7 +88,10 @@ public class CollectionVecteur {
             this.vecteursCentres = vecteursCentres;
         }
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> main
     public static List<Vecteur> acp(List<Vecteur> vecteurs) {
         int nbVecteurs = vecteurs.size();
         int dim = vecteurs.get(0).dimension();
@@ -137,7 +132,11 @@ public class CollectionVecteur {
 
         return baseOrthonormale;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> main
     // Méthode auxiliaire à ajouter aussi dans CollectionVecteur
     private double produitScalaire(Vecteur v1, Vecteur v2) {
         double sum = 0.0;
@@ -147,7 +146,11 @@ public class CollectionVecteur {
         return sum;
     }
 
+<<<<<<< HEAD
     public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) { 
+=======
+    public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) {
+>>>>>>> main
         List<Vecteur> contributions = new ArrayList<>();
 
         for (Vecteur vi : Vc) {
@@ -186,7 +189,11 @@ public class CollectionVecteur {
 
         return vecteurReconstruit;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> main
     /**
      * Transforme un vecteur de taille s² en une image carrée de taille s×s.
      *
@@ -222,6 +229,7 @@ public class CollectionVecteur {
      * @param taillePatch La taille des patchs (ex: 8)
      * @return Liste des patchs reconstruits (image + position)
      */
+<<<<<<< HEAD
     public static List<Patch> reconstruirePatchsDepuisContributions(List<Vecteur> projections, double[][] basePCA, double[] vecteurMoyen, int taillePatch) {
         List<Patch> patchsReconstitues = new ArrayList<>();
 
@@ -233,4 +241,61 @@ public class CollectionVecteur {
 
         return patchsReconstitues;
     }
+=======
+    public static List<Patch> reconstruirePatchsDepuisContributions(
+            List<Vecteur> projections,
+            double[][] base, // base U : [d][k]
+            double[] moyenne,
+            int taillePatch,
+            List<Patch> patchsOriginaux // ⚠️ nouveau paramètre
+    ) {
+        List<Patch> patchs = new ArrayList<>();
+
+        for (int k = 0; k < projections.size(); k++) {
+            double[] alpha = projections.get(k).valeurs;
+            int dim = base.length;
+            int nbComposantes = base[0].length;
+
+            // Produit U * alpha + moyenne
+            double[] reconstruit = new double[dim];
+            for (int i = 0; i < dim; i++) {
+                for (int j = 0; j < nbComposantes; j++) {
+                    reconstruit[i] += base[i][j] * alpha[j];
+                }
+                reconstruit[i] += moyenne[i];
+            }
+
+            // Création de l'image du patch
+            BufferedImage patchImg = new BufferedImage(taillePatch, taillePatch, BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < taillePatch; i++) {
+                for (int j = 0; j < taillePatch; j++) {
+                    int index = i * taillePatch + j;
+                    int val = (int) Math.round(reconstruit[index]);
+                    val = Math.max(0, Math.min(255, val)); // clamp
+                    Color gris = new Color(val, val, val);
+                    patchImg.setRGB(j, i, gris.getRGB());
+                }
+            }
+
+            // Réutilise les coordonnées d'origine
+            Patch original = patchsOriginaux.get(k);
+            patchs.add(new Patch(patchImg, original.x, original.y));
+        }
+
+        return patchs;
+    }
+
+    public static double[][] toMatriceBase(List<Vecteur> base) {
+        int dim = base.get(0).valeurs.length;
+        int k = base.size();
+        double[][] matrice = new double[dim][k];
+        for (int j = 0; j < k; j++) {
+            for (int i = 0; i < dim; i++) {
+                matrice[i][j] = base.get(j).valeurs[i];
+            }
+        }
+        return matrice;
+    }
+
+>>>>>>> main
 }

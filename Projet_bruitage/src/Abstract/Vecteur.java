@@ -1,3 +1,4 @@
+package Abstract;
 public class Vecteur {
     public double[] valeurs;
     public int x;

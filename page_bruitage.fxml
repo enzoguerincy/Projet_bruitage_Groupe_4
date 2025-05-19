@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="919.0" prefWidth="1337.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="894.0" prefWidth="1293.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Pane layoutX="-9.0" layoutY="-25.0" prefHeight="919.0" prefWidth="1351.0">
+               <children>
+                  <Pane layoutX="229.0" layoutY="184.0" prefHeight="665.0" prefWidth="843.0" style="-fx-background-color: #ffffff;" />
+                <AnchorPane layoutY="22.0" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="229.0" style="-fx-background-color: #efe9fe;">
+                     <children>
+                        <Button layoutX="26.0" layoutY="128.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="178.0" style="-fx-background-color: #e2d5ff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Collection" />
+                        <Button layoutX="14.0" layoutY="22.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="206.0" style="-fx-background-color: #a54dff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Menu" />
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="245.0" prefHeight="99.0" prefWidth="220.0" text="1-Insertion">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="544.0" prefHeight="68.0" prefWidth="220.0" text="4-Résultat">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="359.0" prefHeight="91.0" prefWidth="220.0" style="-fx-font-weight: bold; -fx-font-size: 20;" text="2-Bruitage">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Line endX="112.0" layoutX="117.0" layoutY="244.0" startX="-108.0" />
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0" prefHeight="68.0" prefWidth="220.0" style="-fx-font-size: 20px;" text="3-Méthode">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Line endX="117.0" layoutX="112.0" layoutY="350.0" startX="-108.0" />
+                        <Line endX="116.0" layoutX="113.0" layoutY="453.0" startX="-108.0" />
+                        <Line endX="115.0" layoutX="112.0" layoutY="544.0" startX="-108.0" />
+                     </children>
+                  </AnchorPane>
+                  <Pane layoutX="229.0" layoutY="24.0" prefHeight="887.0" prefWidth="1121.0" style="-fx-background-color: white; -fx-box-shadow: none; -fx-background-insets: 0; -fx-border-color: none;">
+                     <children>
+                        <Pane prefHeight="116.0" prefWidth="1049.0" style="-fx-background-color: white;">
+                           <children>
+                              <Line endX="1020.0" layoutX="101.0" layoutY="116.0" startX="-100.0" />
+                              <Label alignment="CENTER" layoutX="-2.0" prefHeight="116.0" prefWidth="1121.0" style="-fx-font-weight: bold; -fx-font-size: 32px;" text="Débruitage par Analyse en Composantes Principales (ACP)">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <ImageView fitHeight="613.0" fitWidth="690.0" layoutX="411.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 10;" />
+                        <Button layoutX="130.0" layoutY="670.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="168.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Bruiter" textFill="WHITE" />
+                        <Label alignment="CENTER" layoutX="129.0" layoutY="348.0" prefHeight="38.0" prefWidth="160.0" style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Bruitage :" underline="true">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                        <Slider id="sliderV" layoutX="82.0" layoutY="422.0" prefHeight="15.0" prefWidth="253.0" style="-fx-padding: 10; -fx-background-color: #e2d5ff; -fx-background-radius: 5; -fx-pref-height: 6px;" />
+                        <ToggleButtonGroup layoutX="70.0" layoutY="489.0" prefHeight="68.0" prefWidth="277.0" selectionType="SINGLE" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;" />
+                        <Label id="labelValeur" layoutX="363.0" layoutY="429.0" text="0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="144.0" layoutY="-1.0" prefHeight="46.0" prefWidth="484.0" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>

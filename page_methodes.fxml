@@ -103,18 +103,18 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="544.0" prefHeight="68.0" prefWidth="220.0" text="4-Résultat">
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="544.0" prefHeight="68.0" prefWidth="220.0" text="4-Résultat">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="453.0" prefHeight="91.0" prefWidth="220.0" text="3-Bruitage">
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="359.0" prefHeight="91.0" prefWidth="220.0" text="2-Bruitage">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <Line endX="112.0" layoutX="117.0" layoutY="244.0" startX="-108.0" />
-                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="350.0" prefHeight="68.0" prefWidth="220.0" style="-fx-font-weight: bold; -fx-font-size: 20px;" text="2-Méthode">
+                        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0" prefHeight="68.0" prefWidth="220.0" style="-fx-font-weight: bold; -fx-font-size: 20px;" text="3-Méthode">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -137,7 +137,7 @@
                            </children>
                         </Pane>
                         <ImageView fitHeight="613.0" fitWidth="690.0" layoutX="411.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 10;" />
-                        <Button layoutX="130.0" layoutY="670.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="168.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Valider " textFill="WHITE" />
+                        <Button layoutX="130.0" layoutY="670.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="168.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;" text="Débruiter" textFill="WHITE" />
                         <Label alignment="CENTER" layoutX="129.0" layoutY="184.0" prefHeight="38.0" prefWidth="160.0" style="-fx-font-weight: bold; -fx-font-size: 26px;" text="1-Seuillage :" underline="true">
                            <font>
                               <Font size="26.0" />

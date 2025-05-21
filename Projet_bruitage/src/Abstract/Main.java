@@ -25,11 +25,11 @@ public class Main {
             List<Patch> patchsG = ImageBruitee.extractPatchs(imageBruitee, taillePatch);
             List<Vecteur> vecteursG = ImageBruitee.vectorPatchs(patchsG);
             CollectionVecteur cvG = new CollectionVecteur(vecteursG);
-            CollectionVecteur.MoyCovResult mcrG = cvG.MoyCov();
+            CollectionVecteur.MoyCovResult mcrG = cvG.moyCov();
             List<Vecteur> baseG = CollectionVecteur.acp(vecteursG);
             double[][] baseMatG = CollectionVecteur.toMatriceBase(baseG);
 
-            List<Vecteur> projGBase = cvG.Proj(baseG, mcrG.vecteursCentres);
+            List<Vecteur> projGBase = cvG.proj(baseG, mcrG.vecteursCentres);
 
             // --- Seuillage doux
             List<Vecteur> projGDoux = cloneVecteurs(projGBase);
@@ -60,11 +60,11 @@ public class Main {
             List<Patch> patchsL = ImageBruitee.decoupeImage(imageBruitee, 32, 8); // blocs de 32x32
             List<Vecteur> vecteursL = ImageBruitee.vectorPatchs(patchsL);
             CollectionVecteur cvL = new CollectionVecteur(vecteursL);
-            CollectionVecteur.MoyCovResult mcrL = cvL.MoyCov();
+            CollectionVecteur.MoyCovResult mcrL = cvL.moyCov();
             List<Vecteur> baseL = CollectionVecteur.acp(vecteursL);
             double[][] baseMatL = CollectionVecteur.toMatriceBase(baseL);
 
-            List<Vecteur> projLBase = cvL.Proj(baseL, mcrL.vecteursCentres);
+            List<Vecteur> projLBase = cvL.proj(baseL, mcrL.vecteursCentres);
 
             // --- Seuillage doux
             List<Vecteur> projLDoux = cloneVecteurs(projLBase);
@@ -88,7 +88,7 @@ public class Main {
             double psnrLU = ImageFinale.psnr(mseLU);
             System.out.printf("LOCAL DUR    : MSE = %.2f | PSNR = %.2f dB%n", mseLU, psnrLU);
 
-            System.out.println("✅ Toutes les images et mesures ont été générées dans out/global/ et out/local/");
+            System.out.println("Toutes les images et mesures ont été générées dans out/global/ et out/local/");
 
         } catch (Exception e) {
             e.printStackTrace();

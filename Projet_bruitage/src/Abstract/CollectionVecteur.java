@@ -93,7 +93,7 @@ public class CollectionVecteur {
         int nbVecteurs = vecteurs.size();
         int dim = vecteurs.get(0).dimension();
 
-        // 1. Calcul du vecteur moyen
+        // Calcul du vecteur moyen
         double[] moyenne = new double[dim];
         for (Vecteur v : vecteurs) {
             for (int i = 0; i < dim; i++) {
@@ -104,7 +104,7 @@ public class CollectionVecteur {
             moyenne[i] /= nbVecteurs;
         }
 
-        // 2. Centrage des vecteurs
+        // Centrage des vecteurs
         double[][] donneesCentrees = new double[nbVecteurs][dim];
         for (int i = 0; i < nbVecteurs; i++) {
             Vecteur v = vecteurs.get(i);
@@ -113,14 +113,14 @@ public class CollectionVecteur {
             }
         }
 
-        // 3. Matrice de covariance
+        // Matrice de covariance
         RealMatrix M = MatrixUtils.createRealMatrix(donneesCentrees);
         RealMatrix covariance = M.transpose().multiply(M).scalarMultiply(1.0 / nbVecteurs);
 
-        // 4. Décomposition en valeurs propres
+        // Décomposition en valeurs propres
         EigenDecomposition eig = new EigenDecomposition(covariance);
 
-        // 5. Construction de la base orthonormale (vecteurs propres)
+        // Construction de la base orthonormale (vecteurs propres)
         List<Vecteur> baseOrthonormale = new ArrayList<>();
         for (int i = 0; i < dim; i++) {
             double[] composantes = eig.getEigenvector(i).toArray();

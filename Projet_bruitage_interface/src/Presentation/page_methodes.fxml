@@ -12,10 +12,6 @@
 	<!-- COLONNE GAUCHE : Tous les boutons -->
 	<VBox spacing="20" alignment="CENTER">
 
-		<Button text="Débruiter" fx:id="btnDebruiter"
-			onAction="#onDebruiter" prefWidth="180" prefHeight="50"
-			styleClass="button-bruiter" />
-
 		<Label text="1-Méthode :"
 			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
 		<HBox spacing="5" alignment="CENTER">
@@ -46,6 +42,10 @@
 				prefWidth="180" styleClass="slider-v" />
 			<Label fx:id="labelValeur" text="0" styleClass="slider-label" />
 		</HBox>
+		
+		<Button text="Débruiter" fx:id="btnDebruiter"
+			onAction="#onDebruiter" prefWidth="180" prefHeight="50"
+			styleClass="button-bruiter" />
 
 	</VBox>
 

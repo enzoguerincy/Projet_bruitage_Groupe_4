@@ -3,110 +3,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane fx:id="rootPane"
-	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="Controle.MenuController">
-	<top>
-		<HBox style="-fx-padding: 10;">
-			<!-- Bouton à gauche -->
-			<Button fx:id="menuButton" mnemonicParsing="false"
-				prefHeight="60.0" prefWidth="200.0"
-				style="-fx-background-color: #a54dff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-				text="Menu" onAction="#toggleMenu" />
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controle.MenuController"
+      spacing="20"
+      alignment="CENTER"
+      stylesheets="@style.css"
+      styleClass="center-pane">
 
-			<!-- Espace flexible -->
-			<Region HBox.hgrow="ALWAYS" />
+    <!-- Image centrée dans un conteneur avec ScrollPane -->
+    <StackPane fx:id="imageContainer" styleClass="image-container">
+        <ScrollPane fitToWidth="true" fitToHeight="true"
+                    pannable="true" styleClass="scrollpane-transparent">
+            <StackPane alignment="CENTER">
+                <ImageView fx:id="imageView" preserveRatio="true"
+                           fitWidth="800" fitHeight="500" />
+            </StackPane>
+        </ScrollPane>
+    </StackPane>
 
-			<!-- Label centré -->
-			<Label
-				text="Débruitage par Analyse en Composantes Principales (ACP)"
-				style="-fx-font-size: 24px; -fx-font-weight: bold;" />
-
-			<!-- Espace flexible pour équilibrer -->
-			<Region HBox.hgrow="ALWAYS" />
-		</HBox>
-	</top>
-
-	<left>
-		<VBox fx:id="sideMenu" spacing="10"
-			style="-fx-background-color: #efe9fe; -fx-padding: 20;-fx-background-radius: 0 30 30 0;"
-			prefWidth="200">
-			<VBox fx:id="menuItems" visible="true" managed="true"
-				spacing="10">
-
-				<!-- Espace haut -->
-				<Region VBox.vgrow="ALWAYS" />
-
-				<!-- Bouton Collection -->
-				<Button layoutX="26.0" layoutY="128.0"
-					mnemonicParsing="false" prefHeight="68.0" prefWidth="178.0"
-					style="-fx-background-color: #e2d5ff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-					text="Collection" />
-
-				<!-- Espace entre bouton et labels -->
-				<Region minHeight="30" />
-
-				<!-- Labels -->
-				<Label fx:id="labelInsertion" text="1-Insertion"
-					style="-fx-font-size: 16px;" />
-				<Label fx:id="labelBruitage" text="2-Bruitage"
-					style="-fx-font-size: 16px;" />
-				<Label fx:id="labelMethode" text="3-Méthode"
-					style="-fx-font-size: 16px;" />
-				<Label fx:id="labelResultat" text="4-Résultat"
-					style="-fx-font-size: 16px;" />
-
-
-				<!-- Espace bas -->
-				<Region VBox.vgrow="ALWAYS" />
-			</VBox>
-
-		</VBox>
-	</left>
-
-	<center>
-		<BorderPane fx:id="centerPane" style="-fx-padding: 30;">
-			<center>
-				<StackPane fx:id="imageContainer"
-					style="-fx-border-color: black; -fx-border-width: 1;">
-					<ScrollPane fitToWidth="true" fitToHeight="true"
-						pannable="true" style="-fx-background-color:transparent;">
-						<StackPane alignment="CENTER">
-							<ImageView fx:id="imageView" preserveRatio="true"
-								fitWidth="800" fitHeight="500" />
-						</StackPane>
-					</ScrollPane>
-				</StackPane>
-			</center>
-			<bottom>
-				<HBox alignment="CENTER" spacing="20">
-					<Button fx:id="boutonInsererImage" text="Insérer une image"
-						onAction="#handleInsererImage"
-						style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-background-radius: 30;"
-						prefWidth="250" prefHeight="50" />
-					<Button fx:id="boutonValiderImage" text="Valider l'image"
-						disable="true" onAction="#handleValiderImage"
-						style="-fx-background-color: #38C490; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-background-radius: 30;"
-						prefWidth="250" prefHeight="50" />
-				</HBox>
-			</bottom>
-		</BorderPane>
-	</center>
-	<right>
-		<VBox fx:id="zoomContainer" alignment="CENTER" spacing="10"
-			style="-fx-padding: 20;">
-			<Label text="Zoom"
-				style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-			<Slider fx:id="sliderZoom" orientation="VERTICAL"
-				style="-fx-background-color: #e2d5ff; -fx-background-radius: 5;"
-				prefHeight="300" min="0.1" max="2.0" value="1.0" majorTickUnit="0.5"
-				minorTickCount="4" />
-		</VBox>
-	</right>
-
-
-
-</BorderPane>
+    <!-- Boutons d'action -->
+    <HBox alignment="CENTER" spacing="20">
+        <Button fx:id="boutonInsererImage" text="Insérer une image"
+                onAction="#handleInsererImage"
+                styleClass="button-inserer"
+                prefWidth="250" prefHeight="50" />
+        <Button fx:id="boutonValiderImage" text="Valider l'image"
+                disable="true" onAction="#handleValiderImage"
+                styleClass="button-valider"
+                prefWidth="250" prefHeight="50" />
+    </HBox>
+</VBox>

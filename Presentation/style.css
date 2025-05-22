@@ -1,0 +1,160 @@
+/* ====== STYLES COMMUNS ====== */
+
+/* BorderPane central avec padding */
+.center-pane {
+    -fx-padding: 30.0;
+}
+
+/* Conteneur d'image avec bordure */
+.image-container {
+    -fx-border-color: black;
+    -fx-border-width: 1.0;
+}
+
+/* ScrollPane transparent */
+.scrollpane-transparent {
+    -fx-background-color: transparent;
+}
+
+/* Slider style commun */
+.slider-v,
+.slider-zoom {
+    -fx-padding: 10.0;
+    -fx-background-color: #e2d5ff;
+    -fx-background-radius: 5.0;
+}
+
+/* Label commun pour sliders et valeurs */
+.slider-label {
+    -fx-font-size: 18.0px;
+}
+
+/* Boutons génériques */
+.button-menu,
+.button-collection,
+.button-retour-menu {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20.0;
+}
+
+/* ====== STYLES SPÉCIFIQUES ====== */
+
+/* Bouton principal "Menu" (Haut de la page menu) */
+.button-menu {
+    -fx-background-color: #a54dff;
+    -fx-font-size: 26.0px;
+    -fx-background-radius: 30.0;
+}
+
+/* Bouton "Collection" (menu latéral page menu) */
+.button-collection {
+    -fx-background-color: #e2d5ff;
+    -fx-font-size: 26.0px;
+    -fx-background-radius: 30.0;
+}
+
+/* Bouton "Menu principal" (page bruitage) */
+.button-retour-menu {
+    -fx-background-color: #a54dff;
+    -fx-font-size: 16.0px;
+}
+
+/* Labels titres généraux */
+.label-titre,
+.label-bruitage-titre {
+    -fx-font-size: 24.0px;
+    -fx-font-weight: bold;
+}
+
+.label-bruitage-titre {
+    -fx-underline: true;
+}
+
+/* Side Menu VBox (page menu) */
+.side-menu {
+    -fx-background-color: #efe9fe;
+    -fx-padding: 20.0;
+    -fx-background-radius: 0.0 30.0 30.0 0.0;
+}
+
+/* Labels du menu latéral (page menu) */
+.side-label {
+    -fx-font-size: 16.0px;
+}
+
+/* Boutons bas page menu/bruitage */
+.button-inserer,
+.button-bruiter {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20.0px;
+    -fx-background-radius: 30.0;
+}
+
+.button-valider {
+    -fx-background-color: #38C490;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20.0px;
+    -fx-background-radius: 30.0;
+}
+
+.button-methodes {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20.0px;
+    -fx-background-radius: 30.0;
+}
+
+/* Zoom container (page menu) */
+.zoom-container {
+    -fx-padding: 20.0;
+}
+
+.zoom-label {
+    -fx-font-size: 16.0px;
+    -fx-font-weight: bold;
+}
+
+/* Top HBox (page menu) */
+.top-hbox {
+    -fx-padding: 10.0;
+}
+
+.toggle-left {
+    -fx-background-color: #ac89fc;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-background-radius: 20 0 0 20;
+    -fx-border-radius: 20 0 0 20;
+}
+
+.toggle-right {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-background-radius: 0 20 20 0;
+    -fx-border-radius: 0 20 20 0;
+}
+
+.button-bruiter {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 30;
+}
+
+.button-small {
+    -fx-background-color: #ac89fc;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 20;
+}
+

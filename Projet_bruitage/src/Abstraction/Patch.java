@@ -1,4 +1,4 @@
-package Abstract;
+package Abstraction;
 import java.awt.image.BufferedImage;
 
 public class Patch {

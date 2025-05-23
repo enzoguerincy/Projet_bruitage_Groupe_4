@@ -1,209 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Copyright (c) 2015, 2019, Gluon and/or its affiliates. All rights reserved. 
-	Use is subject to license terms. ... (licence inchangée) ... -->
-
-<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="919.0" prefWidth="1337.0"
-	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="Controle.PageController">
-	<children>
-		<MenuBar VBox.vgrow="NEVER">
-			<menus>
-				<Menu mnemonicParsing="false" text="File">
-					<items>
-						<MenuItem mnemonicParsing="false" text="New" />
-						<MenuItem mnemonicParsing="false" text="Open…" />
-						<Menu mnemonicParsing="false" text="Open Recent" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem mnemonicParsing="false" text="Close" />
-						<MenuItem mnemonicParsing="false" text="Save" />
-						<MenuItem mnemonicParsing="false" text="Save As…" />
-						<MenuItem mnemonicParsing="false" text="Revert" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem mnemonicParsing="false" text="Preferences…" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem mnemonicParsing="false" text="Quit" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Edit">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Undo" />
-						<MenuItem mnemonicParsing="false" text="Redo" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem mnemonicParsing="false" text="Cut" />
-						<MenuItem mnemonicParsing="false" text="Copy" />
-						<MenuItem mnemonicParsing="false" text="Paste" />
-						<MenuItem mnemonicParsing="false" text="Delete" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem mnemonicParsing="false" text="Select All" />
-						<MenuItem mnemonicParsing="false" text="Unselect All" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Help">
-					<items>
-						<MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-					</items>
-				</Menu>
-			</menus>
-		</MenuBar>
+<HBox xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="Controle.MethodesController" spacing="50"
+	alignment="CENTER" styleClass="center-pane" stylesheets="@style.css">
 
-		<AnchorPane maxHeight="-1.0" maxWidth="-1.0"
-			prefHeight="894.0" prefWidth="1293.0" VBox.vgrow="ALWAYS">
-			<children>
-				<Pane layoutX="-9.0" layoutY="-25.0" prefHeight="919.0"
-					prefWidth="1351.0">
-					<children>
-						<!-- Barre latérale gauche inchangée -->
-						<AnchorPane layoutY="22.0" prefHeight="900.0"
-							prefWidth="229.0" style="-fx-background-color: #efe9fe;">
-							<children>
-								<Button layoutX="26.0" layoutY="128.0"
-									mnemonicParsing="false" prefHeight="68.0" prefWidth="178.0"
-									style="-fx-background-color: #e2d5ff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-									text="Collection" />
-								<Button layoutX="14.0" layoutY="22.0"
-									mnemonicParsing="false" prefHeight="68.0" prefWidth="206.0"
-									style="-fx-background-color: #a54dff; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-									text="Menu" />
-								<Label alignment="TOP_LEFT" layoutX="26.0" layoutY="245.0"
-									prefHeight="99.0" prefWidth="220.0" text="1-Insertion">
-									<font>
-										<Font size="20.0" />
-									</font>
-								</Label>
-								<Label alignment="TOP_LEFT" layoutX="26.0" layoutY="544.0"
-									prefHeight="68.0" prefWidth="220.0" text="4-Résultat">
-									<font>
-										<Font size="20.0" />
-									</font>
-								</Label>
-								<Label alignment="TOP_LEFT" layoutX="26.0" layoutY="359.0"
-									prefHeight="91.0" prefWidth="220.0" text="2-Bruitage">
-									<font>
-										<Font size="20.0" />
-									</font>
-								</Label>
-								<Line endX="112.0" layoutX="117.0" layoutY="244.0"
-									startX="-108.0" />
-								<Label alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0"
-									prefHeight="68.0" prefWidth="220.0"
-									style="-fx-font-weight: bold; -fx-font-size: 20px;"
-									text="3-Méthode">
-									<font>
-										<Font size="20.0" />
-									</font>
-								</Label>
-								<Line endX="117.0" layoutX="112.0" layoutY="350.0"
-									startX="-108.0" />
-								<Line endX="116.0" layoutX="113.0" layoutY="453.0"
-									startX="-108.0" />
-								<Line endX="115.0" layoutX="112.0" layoutY="544.0"
-									startX="-108.0" />
-							</children>
-						</AnchorPane>
+	<!-- COLONNE GAUCHE : Tous les boutons -->
+	<VBox spacing="20" alignment="CENTER">
 
-						<!-- Zone principale mise à jour -->
-						<Pane layoutX="229.0" layoutY="24.0" prefHeight="887.0"
-							prefWidth="1121.0" style="-fx-background-color: white;">
-							<children>
-								<Pane prefHeight="116.0" prefWidth="1049.0"
-									style="-fx-background-color: white;">
-									<children>
-										<Line endX="1020.0" layoutX="101.0" layoutY="116.0"
-											startX="-100.0" />
-										<Label alignment="CENTER" layoutX="-2.0"
-											prefHeight="116.0" prefWidth="1121.0"
-											style="-fx-font-weight: bold; -fx-font-size: 32px;"
-											text="Débruitage par Analyse en Composantes Principales (ACP)">
-											<font>
-												<Font size="35.0" />
-											</font>
-										</Label>
-									</children>
-								</Pane>
+		<Label text="1-Méthode :"
+			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+		<HBox spacing="5" alignment="CENTER">
+			<ToggleButton fx:id="btnLocal" text="Local"
+				styleClass="toggle-left" />
+			<ToggleButton fx:id="btnGlobal" text="Global"
+				styleClass="toggle-right" />
+		</HBox>
 
-								<ImageView fitHeight="613.0" fitWidth="690.0"
-									layoutX="411.0" layoutY="138.0" pickOnBounds="true"
-									preserveRatio="true" style="-fx-padding: 10;" />
+		<Label text="2-Seuillage :"
+			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+		<HBox spacing="5" alignment="CENTER">
+			<ToggleButton fx:id="btnDoux" text="Doux"
+				styleClass="toggle-left" />
+			<ToggleButton fx:id="btnDur" text="Dur"
+				styleClass="toggle-right" />
+		</HBox>
 
-								<Button layoutX="130.0" layoutY="670.0"
-									mnemonicParsing="false" prefHeight="68.0" prefWidth="168.0"
-									style="-fx-background-color: #000000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-									text="Débruiter" />
+		<Label text="3-Calcul :"
+			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+		<HBox spacing="10" alignment="CENTER">
+			<Button fx:id="btnVisu" text="Visu" styleClass="button-small" />
+			<Button fx:id="btnBayes" text="Bayes" styleClass="button-small" />
+		</HBox>
 
-								<!-- 1. Méthode -->
-								<Label layoutX="129.0" layoutY="170.0" prefHeight="38.0"
-									prefWidth="160.0"
-									style="-fx-font-weight: bold; -fx-font-size: 26px;"
-									text="1-Méthode :" underline="true" />
-								<ToggleButtonGroup layoutX="70.0"
-									layoutY="220.0" prefHeight="68.0" prefWidth="277.0"
-									selectionType="SINGLE"
-									style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;">
-									<toggles>
-										<ToggleButton prefHeight="63.0" prefWidth="142.0"
-											style="-fx-background-color: #ac89fc; -fx-background-radius: 20 0 0 20; -fx-text-fill: white; -fx-border-color: #888; -fx-border-radius: 20 0 0 20; -fx-font-weight: bold; -fx-font-size: 26px;"
-											fx:id="btnLocal" text="Local" />
-										<ToggleButton prefHeight="63.0" prefWidth="133.0"
-											style="-fx-background-color: white; -fx-background-radius: 0 20 20 0; -fx-border-radius: 0 20 20 0; -fx-border-color: #888; -fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 26px;"
-											fx:id="btnGlobal" text="Global" />
-									</toggles>
-								</ToggleButtonGroup>
+		<HBox spacing="10" alignment="CENTER_LEFT">
+			<Slider fx:id="sliderV" min="0" max="200" value="0"
+				prefWidth="180" styleClass="slider-v" />
+			<Label fx:id="labelValeur" text="0" styleClass="slider-label" />
+		</HBox>
+		
+		<Button text="Débruiter" fx:id="btnDebruiter"
+			onAction="#onDebruiter" prefWidth="180" prefHeight="50"
+			styleClass="button-bruiter" />
 
-								<!-- 2. Type de seuillage -->
-								<Label layoutX="129.0" layoutY="310.0" prefHeight="38.0"
-									prefWidth="200.0"
-									style="-fx-font-weight: bold; -fx-font-size: 26px;"
-									text="2-Seuillage :" underline="true" />
-								<ToggleButtonGroup layoutX="70.0"
-									layoutY="360.0" prefHeight="68.0" prefWidth="277.0"
-									selectionType="SINGLE"
-									style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;">
-									<toggles>
-										<ToggleButton prefHeight="63.0" prefWidth="142.0"
-											style="-fx-background-color: #ac89fc; -fx-background-radius: 20 0 0 20; -fx-text-fill: white; -fx-border-color: #888; -fx-border-radius: 20 0 0 20; -fx-font-weight: bold; -fx-font-size: 26px;"
-											fx:id="btnDoux" text="Doux" />
-										<ToggleButton prefHeight="63.0" prefWidth="133.0"
-											style="-fx-background-color: white; -fx-background-radius: 0 20 20 0; -fx-border-radius: 0 20 20 0; -fx-border-color: #888; -fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 26px;"
-											fx:id="btnDur" text="Dur" />
-									</toggles>
-								</ToggleButtonGroup>
+	</VBox>
 
-								<!-- 3. Calcul du seuillage -->
-								<Label layoutX="129.0" layoutY="460.0" prefHeight="38.0"
-									prefWidth="260.0"
-									style="-fx-font-weight: bold; -fx-font-size: 26px;"
-									text="3-Calcul :" underline="true" />
-								<Button layoutX="68.0" layoutY="510.0" prefHeight="55.0"
-									prefWidth="124.0"
-									style="-fx-background-color: #ac89fc; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-									text="Visu" />
-								<Button layoutX="227.0" layoutY="510.0" prefHeight="55.0"
-									prefWidth="124.0"
-									style="-fx-background-color: #ac89fc; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26px; -fx-background-radius: 30;"
-									text="Bayes" />
-								<HBox layoutX="100.0" layoutY="600.0" spacing="10"
-									alignment="CENTER">
-									<children>
-										<Slider fx:id="sliderV" min="0" max="200" value="0"
-											style="-fx-padding: 10; -fx-background-color: #e2d5ff; -fx-background-radius: 5;"
-											prefWidth="200" />
-										<Label fx:id="labelValeur" text="0"
-											style="-fx-font-size: 18px;" />
-									</children>
-								</HBox>
-							</children>
-						</Pane>
-					</children>
-				</Pane>
-			</children>
-		</AnchorPane>
-	</children>
-</VBox>
+	<!-- IMAGE AVEC SCROLLPANE AU CENTRE -->
+	<StackPane fx:id="imageContainer"
+		styleClass="image-container">
+		<ScrollPane fitToWidth="true" fitToHeight="true"
+			pannable="true" styleClass="scrollpane-transparent">
+			<StackPane alignment="CENTER">
+				<ImageView fx:id="imageView" fitWidth="700"
+					fitHeight="500" preserveRatio="true" />
+			</StackPane>
+		</ScrollPane>
+	</StackPane>
+
+</HBox>

@@ -1,4 +1,4 @@
-package Abstract;
+package Abstraction;
 public class Vecteur {
     public double[] valeurs;
     public int x;

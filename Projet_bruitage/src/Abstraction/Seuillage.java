@@ -1,6 +1,23 @@
-package Abstract;
+package Abstraction;
+
+import java.util.List;
 
 public class Seuillage {
+	
+	public static double calculerVarianceXb(List<Vecteur> vecteurs) {
+	       int totalCoeff = 0;
+	       double somme = 0;
+	       double sommeCarres = 0;
+	       for (Vecteur v : vecteurs) {
+	           for (double val : v.valeurs) {
+	               somme += val;
+	               sommeCarres += val * val;
+	               totalCoeff++;
+	           }
+	       }
+	       double moyenne = somme / totalCoeff;
+	       return (sommeCarres / totalCoeff) - (moyenne * moyenne);
+	}
 	
 	public static double[] seuillageDur(double lambda, double[] x) {
 	       double[] resultat = new double[x.length];

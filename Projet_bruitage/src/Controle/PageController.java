@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 
-public class PageController {
+public class PageController extends BruitageController {
 
     @FXML
     private ToggleButton btnLocal;
@@ -64,7 +64,8 @@ public class PageController {
 
 
     	@FXML
-        private void initialize() {
+		public void initialize() {
+    		System.out.println("Page des méthodes chargée !");
             // Toggle styles
             btnLocal.setOnAction(e -> {
                 btnLocal.setStyle(violetStyleLeft);

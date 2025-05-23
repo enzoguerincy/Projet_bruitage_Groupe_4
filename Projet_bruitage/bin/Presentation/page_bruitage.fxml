@@ -33,10 +33,10 @@
             <left>
                 <VBox spacing="20">
                     <HBox alignment="TOP_LEFT">
-                        <Button text="⬅ Menu principal"
+                        <Button text="⬅ Retour en arrière"
                             onAction="#handleRetourMenu"
                             styleClass="button-retour-menu"
-                            prefWidth="160" prefHeight="40" />
+                            prefHeight="40" />
                     </HBox>
 
                     <Region VBox.vgrow="ALWAYS" />

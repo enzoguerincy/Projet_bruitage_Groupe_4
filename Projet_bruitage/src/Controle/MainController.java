@@ -3,6 +3,7 @@ package Controle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -73,6 +74,27 @@ public class MainController {
         this.currentImageView = imageView;
         appliquerZoom();
     }
+    
+    private Canvas currentCanvas = null;
+
+    public void setCurrentCanvas(Canvas canvas) {
+        this.currentCanvas = canvas;
+        appliquerZoomCanvas();
+    }
+
+    public void appliquerZoomCanvas() {
+        if (sliderZoom == null || currentCanvas == null)
+            return;
+
+        double scale = sliderZoom.getValue();
+        currentCanvas.setScaleX(scale);
+        currentCanvas.setScaleY(scale);
+    }
+    
+    public double getZoomValue() {
+        return sliderZoom != null ? sliderZoom.getValue() : 1.0;
+    }
+    
 
     public void appliquerZoom() {
         if (sliderZoom == null || currentImageView == null || currentImageView.getImage() == null)

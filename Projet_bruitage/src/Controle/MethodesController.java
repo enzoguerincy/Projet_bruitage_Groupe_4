@@ -97,6 +97,7 @@ public class MethodesController implements ControllerByMain {
             + "-fx-background-radius: 20 0 0 20;"
             + "-fx-border-radius: 20 0 0 20;";
 
+    
     @FXML
     public void initialize() {
         System.out.println("Page des méthodes chargée !");

@@ -16,6 +16,7 @@ public class Main extends Application {
 
         // Charge la première vue (menu par exemple)
         controller.loadView("/Presentation/page_menu.fxml");
+        controller.surlignerLabelPage("Insertion");
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

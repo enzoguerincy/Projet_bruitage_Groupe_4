@@ -93,5 +93,6 @@ public class BruitageController implements ControllerByMain {
     @FXML
     private void handleAllerMethodes(ActionEvent event) {
         mainController.loadView("/Presentation/page_methodes.fxml");
+        mainController.surlignerLabelPage("Méthode");
     }
 }

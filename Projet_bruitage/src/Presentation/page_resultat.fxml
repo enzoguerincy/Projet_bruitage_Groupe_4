@@ -40,6 +40,7 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
+            <Label text="Balayage" styleClass="zoom-label" />
             <Slider fx:id="sliderTransition"
                     min="0" max="1" value="0.5" blockIncrement="0.01"
                     prefWidth="400"

@@ -17,11 +17,6 @@ public class BruitageController implements ControllerByMain {
 
     private MainController mainController;
 
-    @Override
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
     @FXML
     private ImageView imageView;
 
@@ -36,6 +31,20 @@ public class BruitageController implements ControllerByMain {
 
     @FXML
     private BorderPane rootPane;
+    
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+        postInit(); // On appelle l'initialisation dépendante ici
+    }
+
+    private void postInit() {
+        if (mainController != null && imageView.getImage() != null) {
+            mainController.setCurrentImageView(imageView);
+            mainController.appliquerZoom();
+            mainController.surlignerLabelPage("Bruitage");
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -65,11 +74,6 @@ public class BruitageController implements ControllerByMain {
     }
 
     @FXML
-    private void handleRetourMenu(ActionEvent event) {
-        mainController.loadView("/Presentation/page_menu.fxml");
-    }
-
-    @FXML
     private void handleBruiter() {
         BufferedImage inputBuffered = DataHolder.getImageOriginale();
         if (inputBuffered == null)
@@ -92,6 +96,7 @@ public class BruitageController implements ControllerByMain {
 
     @FXML
     private void handleAllerMethodes(ActionEvent event) {
+    	mainController.setBruitageEffectue(true);
         mainController.loadView("/Presentation/page_methodes.fxml");
         mainController.surlignerLabelPage("Méthode");
     }

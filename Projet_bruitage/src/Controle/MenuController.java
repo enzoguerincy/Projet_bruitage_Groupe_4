@@ -64,6 +64,7 @@ public class MenuController implements ControllerByMain {
 
     @FXML
     private void handleValiderImage(ActionEvent event) {
+    	mainController.setInsertionEffectuee(true);
         mainController.loadView("/Presentation/page_bruitage.fxml");
         mainController.surlignerLabelPage("Bruitage");
     }

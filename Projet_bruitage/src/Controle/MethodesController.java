@@ -35,6 +35,8 @@ public class MethodesController implements ControllerByMain {
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
+    
+    
 
     @FXML
     private ImageView imageView;
@@ -100,7 +102,6 @@ public class MethodesController implements ControllerByMain {
     
     @FXML
     public void initialize() {
-        System.out.println("Page des méthodes chargée !");
 
         BufferedImage buffered = DataHolder.getImageBruitee();
         if (buffered == null) {
@@ -190,6 +191,7 @@ public class MethodesController implements ControllerByMain {
     
     @FXML
     private void handleAllerResultat(ActionEvent event) {
+    	mainController.setMethodeChoisie(true);
         mainController.loadView("/Presentation/page_resultat.fxml");
         mainController.surlignerLabelPage("Résultat");
     }

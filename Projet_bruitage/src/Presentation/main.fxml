@@ -40,13 +40,13 @@
 				<Region minHeight="30" />
 
 				<Label fx:id="labelInsertion" text="1-Insertion"
-					styleClass="side-label" />
+					styleClass="side-label" onMouseClicked="#goToInsertion" />
 				<Label fx:id="labelBruitage" text="2-Bruitage"
-					styleClass="side-label" />
+					styleClass="side-label" onMouseClicked="#goToBruitage" />
 				<Label fx:id="labelMethode" text="3-Méthode"
-					styleClass="side-label" />
+					styleClass="side-label" onMouseClicked="#goToMethode" />
 				<Label fx:id="labelResultat" text="4-Résultat"
-					styleClass="side-label" />
+					styleClass="side-label" onMouseClicked="#goToResultat" />
 
 				<Region VBox.vgrow="ALWAYS" />
 			</VBox>

@@ -15,13 +15,13 @@ public class DataHolder {
     
     public enum Mode { GLOBAL, LOCAL }
     public enum Seuillage { DOUX, DUR }
-    public enum Calcul {VISU, BAYES}
+    public enum Calcul {VISU, BAYES, SLIDER}
     
     private static BufferedImage ImageDebruitee;
 
     private static Mode modeSelectionne = Mode.GLOBAL;
     private static Seuillage seuillageSelectionne = Seuillage.DOUX;
-    private static Calcul calculSelectionne = Calcul.VISU;
+    private static Calcul calculSelectionne = Calcul.SLIDER;
     
     public static Image getImageSelectionnee() {
         return imageSelectionnee;

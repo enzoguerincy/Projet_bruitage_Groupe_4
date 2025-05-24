@@ -80,6 +80,7 @@ public class BruitageController implements ControllerByMain {
 
         imageView.setImage(noisyFx);
         DataHolder.setImageBruitee(noisyBuffered);
+        DataHolder.setNiveauBruitage(sigma);
 
         // Actualise l’image à zoomer
         if (mainController != null) {

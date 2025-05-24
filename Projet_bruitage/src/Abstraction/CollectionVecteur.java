@@ -14,7 +14,7 @@ public class CollectionVecteur {
         this.nbVecteur = vecteurs.size();
     }
 
-    public Vecteur CalculerVecteurMoyen() {
+    public Vecteur calculerVecteurMoyen() {
         int dim = vecteurs.get(0).dimension();
         double[] moyenne = new double[dim];
 
@@ -31,8 +31,8 @@ public class CollectionVecteur {
         return new Vecteur(moyenne);
     }
 
-    public double[][] CalculerCovariance() {
-        Vecteur moyenne = CalculerVecteurMoyen();
+    public double[][] calculerCovariance() {
+        Vecteur moyenne = calculerVecteurMoyen();
         int d = moyenne.dimension();
         double[][] covariance = new double[d][d];
 
@@ -53,8 +53,8 @@ public class CollectionVecteur {
         return covariance;
     }
 
-    public List<Vecteur> CalculerVecteurCentré() {
-        Vecteur moyenne = CalculerVecteurMoyen();
+    public List<Vecteur> calculerVecteurCentré() {
+        Vecteur moyenne = calculerVecteurMoyen();
         List<Vecteur> vecteursCentres = new ArrayList<>();
 
         for (Vecteur v : vecteurs) {
@@ -69,10 +69,10 @@ public class CollectionVecteur {
     }
 
     // MoyCov() : façade qui appelle moyenne, covariance et centrage
-    public MoyCovResult MoyCov() {
-        Vecteur moyenne = this.CalculerVecteurMoyen();
-        double[][] covariance = this.CalculerCovariance();
-        List<Vecteur> centres = this.CalculerVecteurCentré();
+    public MoyCovResult moyCov() {
+        Vecteur moyenne = this.calculerVecteurMoyen();
+        double[][] covariance = this.calculerCovariance();
+        List<Vecteur> centres = this.calculerVecteurCentré();
 
         return new MoyCovResult(moyenne, covariance, centres);
     }
@@ -139,7 +139,7 @@ public class CollectionVecteur {
         return sum;
     }
 
-    public List<Vecteur> Proj(List<Vecteur> U, List<Vecteur> Vc) {
+    public List<Vecteur> proj(List<Vecteur> U, List<Vecteur> Vc) {
         List<Vecteur> contributions = new ArrayList<>();
 
         for (Vecteur vi : Vc) {

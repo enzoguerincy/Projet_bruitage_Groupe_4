@@ -15,7 +15,7 @@
 			onAction="#handleRetourBruitage" styleClass="button-retour-menu"
 			prefHeight="40" />
 
-		<Button text="Débruiter" prefWidth="180" prefHeight="50"
+		<Button text="Débruiter" prefWidth="180" prefHeight="50" onAction="#onDebruiter" 
 			styleClass="button-bruiter" />
 
 		<Label text="1-Méthode :"

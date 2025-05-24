@@ -21,6 +21,13 @@ import Abstraction.Seuillage;
 import Abstraction.Vecteur;
 import javax.imageio.ImageIO;
 
+import com.gluonhq.charm.glisten.control.Alert;
+
+import Abstraction.ImageBruitee;
+import static Abstraction.Seuillage.calculSeuilVisuShrink;
+import static Abstraction.Seuillage.calculSeuilBayesShrink;
+import static Abstraction.Seuillage.calculerVarianceXb;
+
 public class MethodesController implements ControllerByMain {
 
 	private MainController mainController;
@@ -53,15 +60,15 @@ public class MethodesController implements ControllerByMain {
 
 	@FXML
 	private ToggleButton btnDur;
-	
-    @FXML
-    private Button btnVisu;
-    
-    @FXML
-    private Button btnBayes;
-    
-    @FXML
-    private Button btnDebruiter;
+
+	@FXML
+	private Button btnVisu;
+
+	@FXML
+	private Button btnBayes;
+
+	@FXML
+	private Button btnDebruiter;
 
 	private final String violetStyleLeft = "-fx-background-color: #ac89fc;" + "-fx-text-fill: white;"
 			+ "-fx-font-weight: bold;" + "-fx-font-size: 18px;" + "-fx-background-radius: 20 0 0 20;"
@@ -104,33 +111,64 @@ public class MethodesController implements ControllerByMain {
 		btnLocal.setOnAction(e -> {
 			btnLocal.setStyle(violetStyleLeft);
 			btnGlobal.setStyle(blancStyleRight);
+			DataHolder.setModeSelectionne(DataHolder.Mode.LOCAL);
 		});
 
 		btnGlobal.setOnAction(e -> {
 			btnGlobal.setStyle(violetStyleRight);
 			btnLocal.setStyle(blancStyleLeft);
+			DataHolder.setModeSelectionne(DataHolder.Mode.GLOBAL);
 		});
 
 		btnDoux.setOnAction(e -> {
 			btnDoux.setStyle(violetStyleLeft);
 			btnDur.setStyle(blancStyleRight);
+			DataHolder.setSeuillageSelectionne(DataHolder.Seuillage.DOUX);
 		});
 
 		btnDur.setOnAction(e -> {
 			btnDur.setStyle(violetStyleRight);
 			btnDoux.setStyle(blancStyleLeft);
+			DataHolder.setSeuillageSelectionne(DataHolder.Seuillage.DUR);
 		});
 
 		btnVisu.setOnAction(e -> {
+			double sigma = DataHolder.getNiveauBruitage();
+			BufferedImage img = DataHolder.getImageBruitee();
+			if (img == null)
+				img = DataHolder.getImageOriginale();
+
+			if (img != null) {
+				int nbPixels = img.getWidth() * img.getHeight();
+				double seuil = calculSeuilVisuShrink(sigma, nbPixels);
+				sliderV.setValue(seuil);
+			} else {
+				System.out.println("Aucune image trouvée !");
+			}
 			DataHolder.setCalculSelectionne(DataHolder.Calcul.VISU);
 		});
 
 		btnBayes.setOnAction(e -> {
+			double sigma = DataHolder.getNiveauBruitage();
+			double sigma2 = sigma * sigma;
+
+			BufferedImage img = DataHolder.getImageBruitee();
+			if (img == null)
+				img = DataHolder.getImageOriginale();
+
+			if (img != null) {
+				List<Patch> patchs = ImageBruitee.extractPatchs(img, 8);
+				List<Vecteur> vecteurs = ImageBruitee.vectorPatchs(patchs);
+				double varianceXb = calculerVarianceXb(vecteurs);
+				double seuil = calculSeuilBayesShrink(sigma2, varianceXb);
+				sliderV.setValue(seuil);
+			}
 			DataHolder.setCalculSelectionne(DataHolder.Calcul.BAYES);
 		});
 
 		sliderV.valueProperty().addListener((obs, oldVal, newVal) -> {
 			labelValeur.setText(String.valueOf(newVal.intValue()));
+			DataHolder.setCalculSelectionne(DataHolder.Calcul.SLIDER);
 		});
 	}
 
@@ -155,88 +193,69 @@ public class MethodesController implements ControllerByMain {
 		System.out.println("Mode : " + DataHolder.getModeSelectionne());
 		System.out.println("Seuillage : " + DataHolder.getSeuillageSelectionne());
 		System.out.println("Calcul : " + DataHolder.getCalculSelectionne());
+
+		BufferedImage img = DataHolder.getImageBruitee();
+
 		int taillePatch = 8;
-		double lambda;
-		List<Vecteur> projDoux;
-		List<Vecteur> projDur;
+		double lambda = 0.0;
 		List<Vecteur> projFinal;
 		BufferedImage imageFinale;
-		// Méthode Globale
+
+		List<Patch> patchs;
+		List<Vecteur> vecteurs;
+
 		if (DataHolder.getModeSelectionne() == DataHolder.Mode.GLOBAL) {
-			List<Patch> patchs = ImageBruitee.extractPatchs(DataHolder.getImageBruitee(), taillePatch);
-			List<Vecteur> vecteurs = ImageBruitee.vectorPatchs(patchs);
-			CollectionVecteur cv = new CollectionVecteur(vecteurs);
-			CollectionVecteur.MoyCovResult mcr = cv.MoyCov();
-			List<Vecteur> base = CollectionVecteur.acp(vecteurs);
-			double[][] baseMat = CollectionVecteur.toMatriceBase(base);
-
-			List<Vecteur> projBase = cv.Proj(base, mcr.vecteursCentres);
-			if (DataHolder.getCalculSelectionne() == DataHolder.Calcul.VISU) {
-				lambda = Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
-						DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth());
-			} else {
-				lambda = Seuillage.calculSeuilBayesShrink(
-						DataHolder.getNiveauBruitage() * DataHolder.getNiveauBruitage(),
-						Seuillage.calculerVarianceXb(vecteurs));
-			}
-			// Doux
-			if (DataHolder.getSeuillageSelectionne() == DataHolder.Seuillage.DOUX) {
-				projDoux = cloneVecteurs(projBase);
-				for (Vecteur v : projDoux)
-					v.valeurs = Seuillage.seuillageDoux(lambda, v.valeurs);
-				projFinal = projDoux;
-				// Dur
-			} else {
-				projDur = cloneVecteurs(projBase);
-				for (Vecteur v : projDur)
-					v.valeurs = Seuillage.seuillageDur(lambda, v.valeurs);
-				projFinal = projDur;
-			}
-			List<Patch> rec = CollectionVecteur.reconstruirePatchsDepuisContributions(projFinal, baseMat,
-					mcr.moyenne.valeurs, taillePatch, patchs);
-			imageFinale = ImageBruitee.reconstructPatchs(rec, DataHolder.getImageBruitee().getHeight(),
-					DataHolder.getImageBruitee().getWidth());
-			// Méthode Locale
+			patchs = ImageBruitee.extractPatchs(img, taillePatch);
 		} else {
-			List<Patch> patchs = ImageBruitee.decoupeImage(DataHolder.getImageBruitee(), 32, 8); // blocs de 32x32
-			List<Vecteur> vecteurs = ImageBruitee.vectorPatchs(patchs);
-			CollectionVecteur cv = new CollectionVecteur(vecteurs);
-			CollectionVecteur.MoyCovResult mcr = cv.MoyCov();
-			List<Vecteur> base = CollectionVecteur.acp(vecteurs);
-			double[][] baseMat = CollectionVecteur.toMatriceBase(base);
-
-			List<Vecteur> projBase = cv.Proj(base, mcr.vecteursCentres);
-			if (DataHolder.getCalculSelectionne() == DataHolder.Calcul.VISU) {
-				lambda = Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
-						DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth());
-			} else {
-				lambda = Seuillage.calculSeuilBayesShrink(
-						DataHolder.getNiveauBruitage() * DataHolder.getNiveauBruitage(),
-						Seuillage.calculerVarianceXb(vecteurs));
-			}
-			// Doux
-			if (DataHolder.getSeuillageSelectionne() == DataHolder.Seuillage.DOUX) {
-				projDoux = cloneVecteurs(projBase);
-				for (Vecteur v : projDoux)
-					v.valeurs = Seuillage.seuillageDoux(lambda, v.valeurs);
-				projFinal = projDoux;
-				// Dur
-			} else {
-				projDur = cloneVecteurs(projBase);
-				for (Vecteur v : projDur)
-					v.valeurs = Seuillage.seuillageDur(lambda, v.valeurs);
-				projFinal = projDur;
-			}
-			List<Patch> rec = CollectionVecteur.reconstruirePatchsDepuisContributions(projFinal, baseMat,
-					mcr.moyenne.valeurs, taillePatch, patchs);
-			imageFinale = ImageBruitee.reconstructPatchs(rec, DataHolder.getImageBruitee().getHeight(),
-					DataHolder.getImageBruitee().getWidth());
+			patchs = ImageBruitee.decoupeImage(img, 32, 8); // blocs de 32x32
 		}
+
+		vecteurs = ImageBruitee.vectorPatchs(patchs);
+		CollectionVecteur cv = new CollectionVecteur(vecteurs);
+		CollectionVecteur.MoyCovResult mcr = cv.moyCov();
+		List<Vecteur> base = CollectionVecteur.acp(vecteurs);
+		double[][] baseMat = CollectionVecteur.toMatriceBase(base);
+		List<Vecteur> projBase = cv.proj(base, mcr.vecteursCentres);
+
+		// Calcul du lambda
+		switch (DataHolder.getCalculSelectionne()) {
+		case VISU:
+			lambda = Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
+					DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth());
+			break;
+		case BAYES:
+			lambda = Seuillage.calculSeuilBayesShrink(Math.pow(DataHolder.getNiveauBruitage(), 2),
+					Seuillage.calculerVarianceXb(vecteurs));
+			break;
+		case SLIDER:
+			lambda = sliderV.getValue(); // On suppose que le slider modifie directement cette valeur
+			break;
+		}
+
+		// Application du seuillage
+		if (DataHolder.getSeuillageSelectionne() == DataHolder.Seuillage.DOUX) {
+			List<Vecteur> projDoux = cloneVecteurs(projBase);
+			for (Vecteur v : projDoux)
+				v.valeurs = Seuillage.seuillageDoux(lambda, v.valeurs);
+			projFinal = projDoux;
+		} else {
+			List<Vecteur> projDur = cloneVecteurs(projBase);
+			for (Vecteur v : projDur)
+				v.valeurs = Seuillage.seuillageDur(lambda, v.valeurs);
+			projFinal = projDur;
+		}
+
+		// Reconstruction finale
+		List<Patch> rec = CollectionVecteur.reconstruirePatchsDepuisContributions(projFinal, baseMat,
+				mcr.moyenne.valeurs, taillePatch, patchs);
+		imageFinale = ImageBruitee.reconstructPatchs(rec, img.getHeight(), img.getWidth());
+
 		DataHolder.setImageDebruitee(imageFinale);
 		System.out.println("Image débruitée avec succès.");
-		System.out.println("Valeur du niveau de bruitage :" + DataHolder.getNiveauBruitage());
-		System.out.println("Valeur du seuil : " + lambda);
-		ImageIO.write(imageFinale, "jpeg", new File("image_finale/imageFinale.jpeg"));
+		System.out.println("Valeur du niveau de bruitage : " + DataHolder.getNiveauBruitage());
+		System.out.println("Valeur du seuil (lambda) : " + lambda);
+
+		ImageIO.write(imageFinale, "jpeg", new File("out/imageFinale.jpeg"));
 		handleAllerResultat(event);
 	}
 

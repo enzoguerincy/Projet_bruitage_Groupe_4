@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // === PARAMÈTRES ===
-            String cheminImage = "images_test/lemurien.jpeg";
+            String cheminImage = "images_test/pexels-pixabay-355747.jpg";
             double sigma = 20;
             int taillePatch = 8;
 
@@ -22,14 +22,14 @@ public class Main {
 
             // === 3. MODE GLOBAL ===
             System.out.println("==== MODE ACP GLOBALE ====");
-            List<Patch> patchsG = ImageBruitee.extractPatchs(imageBruitee, taillePatch);
+            List<Patch> patchsG = ImageBruitee.extractPatchs4(imageBruitee, taillePatch);
             List<Vecteur> vecteursG = ImageBruitee.vectorPatchs(patchsG);
             CollectionVecteur cvG = new CollectionVecteur(vecteursG);
-            CollectionVecteur.MoyCovResult mcrG = cvG.MoyCov();
+            CollectionVecteur.MoyCovResult mcrG = cvG.moyCov();
             List<Vecteur> baseG = CollectionVecteur.acp(vecteursG);
             double[][] baseMatG = CollectionVecteur.toMatriceBase(baseG);
 
-            List<Vecteur> projGBase = cvG.Proj(baseG, mcrG.vecteursCentres);
+            List<Vecteur> projGBase = cvG.proj(baseG, mcrG.vecteursCentres);
 
             // --- Seuillage doux
             List<Vecteur> projGDoux = cloneVecteurs(projGBase);
@@ -60,11 +60,11 @@ public class Main {
             List<Patch> patchsL = ImageBruitee.decoupeImage(imageBruitee, 32, 8); // blocs de 32x32
             List<Vecteur> vecteursL = ImageBruitee.vectorPatchs(patchsL);
             CollectionVecteur cvL = new CollectionVecteur(vecteursL);
-            CollectionVecteur.MoyCovResult mcrL = cvL.MoyCov();
+            CollectionVecteur.MoyCovResult mcrL = cvL.moyCov();
             List<Vecteur> baseL = CollectionVecteur.acp(vecteursL);
             double[][] baseMatL = CollectionVecteur.toMatriceBase(baseL);
 
-            List<Vecteur> projLBase = cvL.Proj(baseL, mcrL.vecteursCentres);
+            List<Vecteur> projLBase = cvL.proj(baseL, mcrL.vecteursCentres);
 
             // --- Seuillage doux
             List<Vecteur> projLDoux = cloneVecteurs(projLBase);

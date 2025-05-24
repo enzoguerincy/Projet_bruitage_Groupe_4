@@ -10,7 +10,9 @@
     -fx-border-color: #ccc;
     -fx-border-width: 1;
     -fx-background-color: #f9f9f9;
+    -fx-padding: 20; /* Ajouté pour espacer autour de l'image */
 }
+
 
 /* ScrollPane transparent */
 .scrollpane-transparent {
@@ -18,7 +20,30 @@
 }
 
 /* Slider style commun */
-.slider-v,
+.slider-v {
+    -fx-padding: 10.0;
+    -fx-background-color: #e2d5ff;
+    -fx-background-radius: 10.0;
+    -fx-border-color: #a54dff;
+    -fx-border-radius: 10.0;
+    -fx-border-width: 2;
+    -fx-pref-width: 220;
+}
+
+.slider .track {
+    -fx-background-color: #d0baff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+}
+
+.slider .thumb {
+    -fx-background-color: #a54dff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, #6a32cc, 4, 0.3, 0, 2);
+}
+
+
 .slider-zoom {
     -fx-padding: 10.0;
     -fx-background-color: #e2d5ff;
@@ -93,7 +118,7 @@
     -fx-font-size: 20.0px;
     -fx-background-radius: 30.0;
 }
-
+.button-methodes,
 .button-valider {
     -fx-background-color: #38C490;
     -fx-text-fill: white;
@@ -102,13 +127,6 @@
     -fx-background-radius: 30.0;
 }
 
-.button-methodes {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 20.0px;
-    -fx-background-radius: 30.0;
-}
 
 /* Zoom container (page menu) */
 .zoom-container {
@@ -157,5 +175,12 @@
     -fx-font-weight: bold;
     -fx-font-size: 16px;
     -fx-background-radius: 20;
+}
+
+.button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #aaaaaa, 10, 0.5, 0, 0);
 }
 

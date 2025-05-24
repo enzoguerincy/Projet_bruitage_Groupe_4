@@ -3,68 +3,122 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<HBox xmlns="http://javafx.com/javafx/21"
+<BorderPane xmlns="http://javafx.com/javafx/21"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="Controle.MethodesController" spacing="50"
-	alignment="CENTER" styleClass="center-pane" stylesheets="@style.css">
+	fx:controller="Controle.MethodesController" stylesheets="@style.css"
+	styleClass="center-pane">
 
-	<!-- COLONNE GAUCHE : Tous les boutons -->
-	<VBox spacing="20" alignment="CENTER">
-		<Button text="⬅ Retour en arrière"
-			onAction="#handleRetourBruitage" styleClass="button-retour-menu"
-			prefHeight="40" />
+	<!-- Titre en haut -->
+	<top>
+		<Label text="Choisissez la méthode de Débruitage :"
+			styleClass="label-bruitage-titre" BorderPane.alignment="CENTER">
+			<BorderPane.margin>
+				<Insets bottom="20" />
+			</BorderPane.margin>
+		</Label>
+	</top>
 
-		<Button text="Débruiter" prefWidth="180" prefHeight="50" onAction="#onDebruiter" 
-			styleClass="button-bruiter" />
+	<!-- Colonne gauche -->
+	<left>
+		<VBox spacing="20" alignment="CENTER">
+			<padding>
+				<Insets top="20" right="20" bottom="20" left="20" />
+			</padding>
 
-		<Label text="1-Méthode :"
-			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
-		<HBox spacing="5" alignment="CENTER">
-			<ToggleButton fx:id="btnLocal" text="Local"
-				styleClass="toggle-left" />
-			<ToggleButton fx:id="btnGlobal" text="Global"
-				styleClass="toggle-right" />
+			<Label text="1-Méthode :"
+				style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+			<HBox spacing="5" alignment="CENTER">
+				<ToggleButton fx:id="btnLocal" text="Local"
+					styleClass="toggle-left">
+					<tooltip>
+						<Tooltip text="Appliquer un débruitage basé sur des imgagette" />
+					</tooltip>
+				</ToggleButton>
+				<ToggleButton fx:id="btnGlobal" text="Global"
+					styleClass="toggle-right">
+					<tooltip>
+						<Tooltip text="Appliquer un débruitage global sur l'image entière" />
+					</tooltip>
+				</ToggleButton>
+			</HBox>
+
+			<Label text="2-Seuillage :"
+				style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+			<HBox spacing="5" alignment="CENTER">
+				<ToggleButton fx:id="btnDoux" text="Doux"
+					styleClass="toggle-left">
+					<tooltip>
+						<Tooltip text="Utiliser un seuillage doux (plus floux/lisse)" />
+					</tooltip>
+				</ToggleButton>
+				<ToggleButton fx:id="btnDur" text="Dur"
+					styleClass="toggle-right">
+					<tooltip>
+						<Tooltip text="Utiliser un seuillage dur (plus strict)" />
+					</tooltip>
+				</ToggleButton>
+			</HBox>
+
+			<Label text="3-Calcul :"
+				style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
+			<HBox spacing="10" alignment="CENTER">
+				<Button fx:id="btnVisu" text="Visu" styleClass="button-small">
+					<tooltip>
+						<Tooltip text="Calcule du seuil avec l'estimation VisuShrink" />
+					</tooltip>
+				</Button>
+				<Button fx:id="btnBayes" text="Bayes" styleClass="button-small">
+					<tooltip>
+						<Tooltip text="Calcule du seuil avec l'estimation BayesShrink" />
+					</tooltip>
+				</Button>
+			</HBox>
+
+			<HBox spacing="10" alignment="CENTER">
+				<Slider fx:id="sliderV" min="0" max="200" value="0"
+					prefWidth="180" styleClass="slider-v" />
+				<Label fx:id="labelValeur" text="0" styleClass="slider-label" />
+			</HBox>
+		</VBox>
+	</left>
+
+	<!-- Image au centre -->
+	<center>
+		<StackPane fx:id="imageContainer" styleClass="image-container">
+			<ScrollPane fitToWidth="true" fitToHeight="true"
+				pannable="true" styleClass="scrollpane-transparent">
+				<StackPane alignment="CENTER">
+					<ImageView fx:id="imageView" fitWidth="700"
+						fitHeight="500" preserveRatio="true" />
+				</StackPane>
+			</ScrollPane>
+		</StackPane>
+	</center>
+
+	<!-- Boutons en bas -->
+	<bottom>
+		<HBox alignment="CENTER" spacing="20">
+			<padding>
+				<Insets top="30" />
+			</padding>
+
+			<Button text="Débruiter" onAction="#onDebruiter"
+				prefWidth="180" prefHeight="50" styleClass="button-bruiter">
+				<tooltip>
+					<Tooltip text="Lancer le débruitage avec les options choisies" />
+				</tooltip>
+			</Button>
+
+			<Button fx:id="boutonResultat" text="Voir le résultat ➔"
+				onAction="#handleAllerResultat" styleClass="button-methodes"
+				prefWidth="250" prefHeight="50">
+				<tooltip>
+					<Tooltip text="Afficher l'image après débruitage" />
+				</tooltip>
+			</Button>
 		</HBox>
+	</bottom>
 
-		<Label text="2-Seuillage :"
-			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
-		<HBox spacing="5" alignment="CENTER">
-			<ToggleButton fx:id="btnDoux" text="Doux"
-				styleClass="toggle-left" />
-			<ToggleButton fx:id="btnDur" text="Dur"
-				styleClass="toggle-right" />
-		</HBox>
-
-		<Label text="3-Calcul :"
-			style="-fx-font-weight: bold; -fx-font-size: 20px;" underline="true" />
-		<HBox spacing="10" alignment="CENTER">
-			<Button fx:id="btnVisu" text="Visu" styleClass="button-small" />
-			<Button fx:id="btnBayes" text="Bayes" styleClass="button-small" />
-		</HBox>
-
-		<HBox spacing="10" alignment="CENTER_LEFT">
-			<Slider fx:id="sliderV" min="0" max="200" value="0"
-				prefWidth="180" styleClass="slider-v" />
-			<Label fx:id="labelValeur" text="0" styleClass="slider-label" />
-		</HBox>
-
-		<Button fx:id="boutonResultat" text="Voir le résultat ➔"
-			onAction="#handleAllerResultat" styleClass="button-methodes"
-			prefWidth="250" prefHeight="50" />
-
-	</VBox>
-
-	<!-- IMAGE AVEC SCROLLPANE AU CENTRE -->
-	<StackPane fx:id="imageContainer"
-		styleClass="image-container">
-		<ScrollPane fitToWidth="true" fitToHeight="true"
-			pannable="true" styleClass="scrollpane-transparent">
-			<StackPane alignment="CENTER">
-				<ImageView fx:id="imageView" fitWidth="700"
-					fitHeight="500" preserveRatio="true" />
-			</StackPane>
-		</ScrollPane>
-	</StackPane>
-
-</HBox>
+</BorderPane>

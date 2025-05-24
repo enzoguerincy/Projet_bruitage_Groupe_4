@@ -32,7 +32,6 @@ public class MethodesController implements ControllerByMain {
 
 	private MainController mainController;
 
-	@Override
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 	}
@@ -86,6 +85,7 @@ public class MethodesController implements ControllerByMain {
 			+ "-fx-font-weight: bold;" + "-fx-font-size: 18px;" + "-fx-background-radius: 20 0 0 20;"
 			+ "-fx-border-radius: 20 0 0 20;";
 
+	
 	@FXML
 	public void initialize() {
 		System.out.println("Page des méthodes chargée !");
@@ -95,14 +95,15 @@ public class MethodesController implements ControllerByMain {
 			buffered = DataHolder.getImageOriginale();
 		}
 
-		if (buffered != null) {
-			Image fxImage = ImageBruitee.toFXImage(buffered);
-			imageView.setImage(fxImage);
-			imageView.setFitWidth(fxImage.getWidth());
-			imageView.setFitHeight(fxImage.getHeight());
-		}
+        if (buffered != null) {
+            Image fxImage = ImageBruitee.toFXImage(buffered);
+            imageView.setImage(fxImage);
+            imageView.setFitWidth(fxImage.getWidth());
+            imageView.setFitHeight(fxImage.getHeight());
+        }
 
 		if (mainController != null) {
+			System.out.println("test");
 			mainController.setCurrentImageView(imageView);
 			mainController.appliquerZoom();
 			mainController.surlignerLabelPage("Méthode");
@@ -157,7 +158,7 @@ public class MethodesController implements ControllerByMain {
 				img = DataHolder.getImageOriginale();
 
 			if (img != null) {
-				List<Patch> patchs = ImageBruitee.extractPatchs(img, 8);
+				List<Patch> patchs = ImageBruitee.extractPatchs4(img, 8);
 				List<Vecteur> vecteurs = ImageBruitee.vectorPatchs(patchs);
 				double varianceXb = calculerVarianceXb(vecteurs);
 				double seuil = calculSeuilBayesShrink(sigma2, varianceXb);
@@ -176,13 +177,10 @@ public class MethodesController implements ControllerByMain {
 		return original.stream().map(v -> new Vecteur(v.valeurs.clone())).toList();
 	}
 
-	@FXML
-	private void handleRetourBruitage(ActionEvent event) {
-		mainController.loadView("/Presentation/page_bruitage.fxml");
-	}
 
 	@FXML
 	private void handleAllerResultat(ActionEvent event) {
+		mainController.setMethodeChoisie(true);
 		mainController.loadView("/Presentation/page_resultat.fxml");
 		mainController.surlignerLabelPage("Résultat");
 	}
@@ -205,7 +203,7 @@ public class MethodesController implements ControllerByMain {
 		List<Vecteur> vecteurs;
 
 		if (DataHolder.getModeSelectionne() == DataHolder.Mode.GLOBAL) {
-			patchs = ImageBruitee.extractPatchs(img, taillePatch);
+			patchs = ImageBruitee.extractPatchs4(img, taillePatch);
 		} else {
 			patchs = ImageBruitee.decoupeImage(img, 32, 8); // blocs de 32x32
 		}

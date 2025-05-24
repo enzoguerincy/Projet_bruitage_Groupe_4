@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -16,11 +17,9 @@ import Abstraction.ImageBruitee;
 public class BruitageController implements ControllerByMain {
 
     private MainController mainController;
-
-    @Override
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
+    
+    @FXML
+    private Button boutonMethodes;
 
     @FXML
     private ImageView imageView;
@@ -37,9 +36,24 @@ public class BruitageController implements ControllerByMain {
     @FXML
     private BorderPane rootPane;
 
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+        postInit(); // On appelle l'initialisation dépendante ici
+    }
+
+    private void postInit() {
+        if (mainController != null && imageView.getImage() != null) {
+            mainController.setCurrentImageView(imageView);
+            mainController.appliquerZoom();
+            mainController.surlignerLabelPage("Bruitage");
+        }
+    }
+    
     @FXML
     public void initialize() {
         BufferedImage buffered = DataHolder.getImageBruitee();
+        boutonMethodes.setDisable(true);
         if (buffered == null) {
             buffered = DataHolder.getImageOriginale();
         }
@@ -64,11 +78,6 @@ public class BruitageController implements ControllerByMain {
     }
 
     @FXML
-    private void handleRetourMenu(ActionEvent event) {
-        mainController.loadView("/Presentation/page_menu.fxml");
-    }
-
-    @FXML
     private void handleBruiter() {
         BufferedImage inputBuffered = DataHolder.getImageOriginale();
         if (inputBuffered == null)
@@ -87,10 +96,14 @@ public class BruitageController implements ControllerByMain {
             mainController.setCurrentImageView(imageView);
             mainController.appliquerZoom();
         }
+        boutonMethodes.setDisable(false);
+
     }
 
     @FXML
     private void handleAllerMethodes(ActionEvent event) {
+    	mainController.setBruitageEffectue(true);
         mainController.loadView("/Presentation/page_methodes.fxml");
+        mainController.surlignerLabelPage("Méthode");
     }
 }

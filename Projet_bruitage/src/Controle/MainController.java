@@ -17,6 +17,10 @@ public class MainController {
     @FXML private Slider sliderZoom;
     @FXML private Label labelInsertion, labelBruitage, labelMethode, labelResultat;
 
+    private boolean insertionEffectuee = false;
+    private boolean bruitageEffectue = false;
+    private boolean methodeChoisie = false;
+    
     private boolean menuVisible = true;
     private ImageView currentImageView = null;
 
@@ -68,6 +72,60 @@ public class MainController {
             case "Méthode" -> labelMethode.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
             case "Résultat" -> labelResultat.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         }
+    }
+    
+    public void setInsertionEffectuee(boolean value) {
+        this.insertionEffectuee = value;
+    }
+    public void setBruitageEffectue(boolean value) {
+        this.bruitageEffectue = value;
+    }
+    public void setMethodeChoisie(boolean value) {
+        this.methodeChoisie = value;
+    }
+    
+    private void showAlert(String titre, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    @FXML
+    private void goToInsertion() {
+        loadView("/Presentation/page_menu.fxml");
+        surlignerLabelPage("Insertion");
+    }
+
+    @FXML
+    private void goToBruitage() {
+        if (!insertionEffectuee) {
+            showAlert("Étape requise", "Veuillez d'abord insérer une image avant d'effectuer le bruitage.");
+            return;
+        }
+        loadView("/Presentation/page_bruitage.fxml");
+        surlignerLabelPage("Bruitage");
+    }
+
+    @FXML
+    private void goToMethode() {
+        if (!bruitageEffectue) {
+            showAlert("Étape requise", "Veuillez d'abord effectuer le bruitage avant de choisir une méthode.");
+            return;
+        }
+        loadView("/Presentation/page_methodes.fxml");
+        surlignerLabelPage("Méthode");
+    }
+
+    @FXML
+    private void goToResultat() {
+        if (!methodeChoisie) {
+            showAlert("Étape requise", "Veuillez d'abord choisir une méthode avant de voir les résultats.");
+            return;
+        }
+        loadView("/Presentation/page_resultat.fxml");
+        surlignerLabelPage("Résultat");
     }
 
     public void setCurrentImageView(ImageView imageView) {

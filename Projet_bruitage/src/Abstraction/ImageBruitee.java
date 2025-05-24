@@ -255,37 +255,35 @@ public class ImageBruitee {
     * @return Liste des patchs (BufferedImage + position)
     */
    public static List<Patch> decoupeImage(BufferedImage image, int Ws, int s) {
-       int largeur = image.getWidth();
-       int hauteur = image.getHeight();
-       List<Patch> patchs = new ArrayList<>();
+	    int largeur = image.getWidth();
+	    int hauteur = image.getHeight();
+	    List<Patch> patchs = new ArrayList<>();
 
-       // Décalage pour le balayage (peut être égal à Ws ou s selon recouvrement souhaité)
-       int pas = Ws;
+	    int pas = Ws;
 
-       // Parcours vertical
-       for (int yBloc = 0; yBloc <= hauteur - s; yBloc += pas) {
-           // Ajuste en bas si on dépasse
-           int yEff = (yBloc + Ws > hauteur) ? hauteur - Ws : yBloc;
+	    for (int yBloc = 0; yBloc <= hauteur - s; yBloc += pas) {
+	        int yEff = (yBloc + Ws > hauteur) ? hauteur - Ws : yBloc;
 
-           for (int xBloc = 0; xBloc <= largeur - s; xBloc += pas) {
-               // Ajuste à droite si on dépasse
-               int xEff = (xBloc + Ws > largeur) ? largeur - Ws : xBloc;
+	        for (int xBloc = 0; xBloc <= largeur - s; xBloc += pas) {
+	            int xEff = (xBloc + Ws > largeur) ? largeur - Ws : xBloc;
 
-               // Bloc local (Ws x Ws)
-               BufferedImage bloc = image.getSubimage(xEff, yEff, Ws, Ws);
+	            // Bloc local (Ws x Ws)
+	            BufferedImage bloc = image.getSubimage(xEff, yEff, Ws, Ws);
 
-               // Extraction des patchs s × s dans le bloc
-               for (int y = 0; y <= Ws - s; y++) {
-                   for (int x = 0; x <= Ws - s; x++) {
-                       BufferedImage patchImg = bloc.getSubimage(x, y, s, s);
-                       patchs.add(new Patch(patchImg, xEff + x, yEff + y));
-                   }
-               }
-           }
-       }
+	            // Extraire les patchs à l'aide de extractPatchs4
+	            List<Patch> patchsBloc = extractPatchs4(bloc, s);
 
-       return patchs;
-   }
+	            // Ajuster les coordonnées des patchs
+	            for (Patch p : patchsBloc) {
+	                patchs.add(new Patch(p.image, p.x + xEff, p.y + yEff));
+	            }
+	        }
+	    }
+
+	    return patchs;
+	}
+
+
 
    
    

@@ -6,71 +6,76 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane fx:id="rootPane"
-    xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="Controle.BruitageController"
-    stylesheets="@style.css">
+	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="Controle.BruitageController" stylesheets="@style.css">
 
-    <center>
-        <BorderPane fx:id="centerPane" styleClass="center-pane">
-            <top>
-                <Label text="Bruitage :"
-                    styleClass="label-bruitage-titre"
-                    BorderPane.alignment="CENTER" />
-            </top>
+	<center>
+		<BorderPane fx:id="centerPane" styleClass="center-pane">
 
-            <center>
-                <StackPane fx:id="imageContainer" styleClass="image-container">
-                    <ScrollPane fitToWidth="true" fitToHeight="true"
-                        pannable="true" styleClass="scrollpane-transparent">
-                        <StackPane alignment="CENTER">
-                            <ImageView fx:id="imageView" preserveRatio="true"
-                                fitWidth="800" fitHeight="500" />
-                        </StackPane>
-                    </ScrollPane>
-                </StackPane>
-            </center>
+			<top>
+				<Label text="Bruitage :" styleClass="label-bruitage-titre"
+					BorderPane.alignment="CENTER">
+					<BorderPane.margin>
+						<Insets bottom="20" />
+					</BorderPane.margin>
+				</Label>
+			</top>
 
-            <left>
-                <VBox spacing="20">
-                    <HBox alignment="TOP_LEFT">
-                        <Button text="⬅ Retour en arrière"
-                            onAction="#handleRetourMenu"
-                            styleClass="button-retour-menu"
-                            prefHeight="40" />
-                    </HBox>
+			<center>
+				<StackPane fx:id="imageContainer"
+					styleClass="image-container">
+					<ScrollPane fitToWidth="true" fitToHeight="true"
+						pannable="true" styleClass="scrollpane-transparent">
+						<StackPane alignment="CENTER">
+							<ImageView fx:id="imageView" preserveRatio="true"
+								fitWidth="800" fitHeight="500" />
+						</StackPane>
+					</ScrollPane>
+				</StackPane>
+			</center>
 
-                    <Region VBox.vgrow="ALWAYS" />
+			<left>
+				<VBox spacing="30">
+					<padding>
+						<Insets top="20" right="20" bottom="20" left="20" />
+					</padding>
 
-                    <HBox spacing="10" alignment="CENTER">
-                        <Label text="Valeur :" styleClass="slider-label" />
-                        <Label fx:id="labelValeur" text="0"
-                            styleClass="slider-label" />
-                    </HBox>
+					<Region VBox.vgrow="ALWAYS" />
 
-                    <Slider fx:id="sliderV" min="0" max="100" value="0"
-                        blockIncrement="1" majorTickUnit="20" minorTickCount="4"
-                        showTickLabels="true" showTickMarks="true"
-                        styleClass="slider-v" />
+					<HBox spacing="10" alignment="CENTER">
+						<Label text="Valeur :" styleClass="slider-label" />
+						<Label fx:id="labelValeur" text="0"
+							styleClass="slider-label" />
+					</HBox>
 
-                    <Region VBox.vgrow="ALWAYS" />
-                </VBox>
-            </left>
+					<Slider fx:id="sliderV" min="0" max="100" value="0"
+						blockIncrement="10" majorTickUnit="10" minorTickCount="0"
+						showTickLabels="true" showTickMarks="true" snapToTicks="true"
+						styleClass="slider-v" />
 
-            <bottom>
-                <HBox alignment="CENTER" spacing="20">
-                    <Button text="Bruiter" fx:id="boutonBruiter"
-                        onAction="#handleBruiter"
-                        styleClass="button-bruiter"
-                        prefWidth="250" prefHeight="50" />
 
-                    <Button text="Méthodes ➔" fx:id="boutonMethodes"
-                        styleClass="button-methodes"
-                        prefWidth="250" prefHeight="50" 
-                        onAction="#handleAllerMethodes"/>
-                </HBox>
-            </bottom>
+					<Region VBox.vgrow="ALWAYS" />
+				</VBox>
+			</left>
 
-        </BorderPane>
-    </center>
+			<bottom>
+				<HBox alignment="CENTER" spacing="20">
+					<padding>
+						<Insets top="30" />
+					</padding>
+
+					<Button text="Bruiter" fx:id="boutonBruiter"
+						onAction="#handleBruiter" styleClass="button-bruiter"
+						prefWidth="250" prefHeight="50" />
+
+					<Button text="Méthodes ➔" fx:id="boutonMethodes"
+						styleClass="button-methodes" prefWidth="250" prefHeight="50"
+						onAction="#handleAllerMethodes" />
+				</HBox>
+			</bottom>
+
+
+		</BorderPane>
+	</center>
 
 </BorderPane>

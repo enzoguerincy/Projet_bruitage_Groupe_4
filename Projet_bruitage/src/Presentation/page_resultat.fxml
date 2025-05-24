@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.canvas.Canvas?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controle.ResultatController"
-            stylesheets="@style.css">
+            stylesheets="@style.css"
+            styleClass="center-pane">
+
+    <top>
+        <Label text="Résultat du Débruitage"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER" />
+    </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
-            <StackPane fx:id="imageContainer"
-                       alignment="CENTER"
-                       style="-fx-background-color: white; -fx-border-color: lightgray;">
-                <Canvas fx:id="canvas" width="800" height="500"
-                        StackPane.alignment="CENTER" />
+        <StackPane fx:id="stackPane" styleClass="image-container">
+            <!-- Image bruitée en fond -->
+            <ImageView fx:id="imageBruiteeView"
+                       preserveRatio="true"
+                       fitWidth="800"
+                       fitHeight="600"/>
+
+            <!-- Conteneur clippé pour balayage -->
+            <StackPane fx:id="clipContainer">
+                <ImageView fx:id="imageDebruiteeView"
+                           preserveRatio="true"
+                           fitWidth="800"
+                           fitHeight="600"/>
             </StackPane>
-        </VBox>
+        </StackPane>
     </center>
 
     <bottom>
-        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
-            <Slider fx:id="comparaisonSlider" min="0" max="1" value="0.5"
-                    blockIncrement="0.01" styleClass="slider-v"
-                    prefWidth="400" onMouseDragged="#handleSliderChanged" />
-            <Button fx:id="boutonAjouter" text="Ajouter à la collection"
-                    onAction="#handleAjouterCollection"
-                    styleClass="button-small" />
-        </HBox>
+        <VBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Balayage" styleClass="zoom-label" />
+            <Slider fx:id="sliderTransition"
+                    min="0" max="1" value="0.5" blockIncrement="0.01"
+                    prefWidth="400"
+                    styleClass="slider-v" />
+        </VBox>
     </bottom>
 
 </BorderPane>

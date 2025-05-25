@@ -26,10 +26,10 @@ Ce projet se porte sur le débruitage d'images par Analyse en Composantes Princi
 - Reconstruction de l’image par fusion pondérée des patchs
 - Comparaison visuelle des résultats (bruitée vs. débruitée)
 
-## Installation
+## Installation (sans IHM)
 
 1. Pré-requis :
-  - Java JDK (version ≥ 11)
+  - Java JDK (version ≥ 21)
   - IDE recommandé : Eclipse, IntelliJ, ou VS Code
   - Librairie externe : Apache Commons Math 3.6.1
     
@@ -38,8 +38,22 @@ Ce projet se porte sur le débruitage d'images par Analyse en Composantes Princi
   - Dans Eclipse :
     -Clic droit sur le projet → Build Path → Add External Archives...
     -Sélectionner commons-math3-3.6.1.jar
-   
-## Utilisation
+
+## Installation (avec IHM)
+
+1. Pré-requis :
+  - Java JDK (version ≥ 21)
+  - IDE recommandé : Eclipse, IntelliJ, ou VS Code
+  - Librairie externe : Apache Commons Math 3.6.1, charm-glisten-6.1.0
+  - javafx 21.0.2
+
+2. Ajout de la librairie externe
+  - Télécharger commons-math3-3.6.1.jar , charm-glisten-6.1.0.jar
+  - Dans Eclipse :
+    -Clic droit sur le projet → Build Path → Add External Archives...
+    -Sélectionner commons-math3-3.6.1.jar et charm-glisten-6.1.0.jar
+    
+## Utilisation (sans IHM)
 
 ### 1. Paramètres modifiables (`Main.java`)
 ```java
@@ -56,7 +70,7 @@ double lambda = 30;      // seuil pour seuillage
 - **Seuillage doux** (soft thresholding)
 - **Seuillage dur** (hard thresholding)
 
-### 3. Dossier de sortie
+### 3. Dossier de sortie (sans IHM)
 
 ```
 out/
@@ -69,6 +83,15 @@ out/
     └── image_debruitee_dur.jpeg
 ```
 
+### 3. Dossier de sortie (avec IHM)
+
+```
+out/
+├── image_bruitee.jpeg
+├── imageFinale.jpeg
+├── global/...
+└── local/...
+```
 ---
 
 ## Exécution via fichier .jar

@@ -46,7 +46,8 @@ public class ResultatController implements ControllerByMain {
     private Image imageDebruitee;
 
     private Rectangle clipRect;
-
+    
+    @SuppressWarnings("unused")
     private MainController mainController;
 
     @Override

@@ -17,108 +17,123 @@ import abstraction.ImageFinale;
 
 public class ResultatController implements ControllerByMain {
 
-    @FXML
-    private ImageView imageBruiteeView;
+	@FXML
+	private ImageView imageBruiteeView;
 
-    @FXML
-    private ImageView imageDebruiteeView;
+	@FXML
+	private ImageView imageDebruiteeView;
 
-    @FXML
-    private Slider sliderTransition;
+	@FXML
+	private Slider sliderTransition;
 
-    @FXML
-    private StackPane clipContainer;
+	@FXML
+	private StackPane clipContainer;
 
-    @FXML
-    private StackPane stackPane;
+	@FXML
+	private StackPane stackPane;
 
-    @FXML
-    private ComboBox<String> comboChoixComparaison;
+	@FXML
+	private ComboBox<String> comboChoixComparaison;
 
-    @FXML
-    private Label labelPSNR;
+	@FXML
+	private Label labelPSNR;
 
-    @FXML
-    private Label labelSE;
+	@FXML
+	private Label labelSE;
 
-    private Image imageBruitee;
-    private Image imageOriginale;
-    private Image imageDebruitee;
+	private Image imageBruitee;
+	private Image imageOriginale;
+	private Image imageDebruitee;
 
-    private Rectangle clipRect;
-    
-    @SuppressWarnings("unused")
-    private MainController mainController;
+	private Rectangle clipRect;
 
-    @Override
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
+	@SuppressWarnings("unused")
+	private MainController mainController;
 
-    @FXML
-    public void initialize() {
-        BufferedImage bufferedBruitee = DataHolder.getImageBruitee();
-        BufferedImage bufferedOriginale = DataHolder.getImageOriginale();
-        BufferedImage bufferedDebruitee = DataHolder.getImageDebruitee();
+	/**
+	 * Définit le contrôleur principal pour interaction globale.
+	 * 
+	 * @param mainController le contrôleur principal de l'application
+	 */
+	@Override
+	public void setMainController(MainController mainController) {
+		this.mainController = mainController;
+	}
 
-        if (bufferedBruitee != null) {
-            imageBruitee = ImageBruitee.toFXImage(bufferedBruitee);
-        }
+	/**
+	 * Initialise le contrôleur et configure l'interface. Charge les images depuis
+	 * le DataHolder, met à jour les vues, configure les listeners pour le slider et
+	 * la ComboBox, et calcule les métriques PSNR et MSE.
+	 */
+	@FXML
+	public void initialize() {
+		BufferedImage bufferedBruitee = DataHolder.getImageBruitee();
+		BufferedImage bufferedOriginale = DataHolder.getImageOriginale();
+		BufferedImage bufferedDebruitee = DataHolder.getImageDebruitee();
 
-        if (bufferedOriginale != null) {
-            imageOriginale = ImageBruitee.toFXImage(bufferedOriginale);
-        }
+		if (bufferedBruitee != null) {
+			imageBruitee = ImageBruitee.toFXImage(bufferedBruitee);
+		}
 
-        if (bufferedDebruitee != null) {
-            imageDebruitee = ImageBruitee.toFXImage(bufferedDebruitee);
-            imageDebruiteeView.setImage(imageDebruitee);
-        }
+		if (bufferedOriginale != null) {
+			imageOriginale = ImageBruitee.toFXImage(bufferedOriginale);
+		}
 
-        // Image par défaut : bruitée vs débruitée
-        imageBruiteeView.setImage(imageBruitee);
+		if (bufferedDebruitee != null) {
+			imageDebruitee = ImageBruitee.toFXImage(bufferedDebruitee);
+			imageDebruiteeView.setImage(imageDebruitee);
+		}
 
-        // Initialiser le rectangle de clipping
-        clipRect = new Rectangle();
-        imageDebruiteeView.setClip(clipRect);
+		// Image par défaut : bruitée vs débruitée
+		imageBruiteeView.setImage(imageBruitee);
 
-        // Réagir aux changements de taille ou slider
-        sliderTransition.valueProperty().addListener((obs, oldVal, newVal) -> updateClip());
-        stackPane.widthProperty().addListener((obs, oldVal, newVal) -> updateClip());
-        stackPane.heightProperty().addListener((obs, oldVal, newVal) -> updateClip());
+		// Initialiser le rectangle de clipping
+		clipRect = new Rectangle();
+		imageDebruiteeView.setClip(clipRect);
 
-        // Listener pour la ComboBox
-        comboChoixComparaison.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                if (newVal.equals("Bruitée vs Débruitée")) {
-                    imageBruiteeView.setImage(imageBruitee);
-                } else if (newVal.equals("Originale vs Débruitée")) {
-                    imageBruiteeView.setImage(imageOriginale);
-                }
-            }
-        });
+		// Réagir aux changements de taille ou slider
+		sliderTransition.valueProperty().addListener((obs, oldVal, newVal) -> updateClip());
+		stackPane.widthProperty().addListener((obs, oldVal, newVal) -> updateClip());
+		stackPane.heightProperty().addListener((obs, oldVal, newVal) -> updateClip());
 
-        // Sélection par défaut
-        comboChoixComparaison.getSelectionModel().selectFirst();
+		// Listener pour la ComboBox
+		comboChoixComparaison.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal != null) {
+				if (newVal.equals("Bruitée vs Débruitée")) {
+					imageBruiteeView.setImage(imageBruitee);
+				} else if (newVal.equals("Originale vs Débruitée")) {
+					imageBruiteeView.setImage(imageOriginale);
+				}
+			}
+		});
 
-        // Calcul et affichage du PSNR / MSE
-        if (bufferedOriginale != null && bufferedDebruitee != null) {
-        	
-            double mse = ImageFinale.mse(bufferedOriginale, bufferedDebruitee);
-            double psnr = ImageFinale.psnr(mse);
+		// Sélection par défaut
+		comboChoixComparaison.getSelectionModel().selectFirst();
 
-            labelPSNR.setText(String.format("PSNR : %.2f dB", psnr));
-            labelSE.setText(String.format("MSE : %.2f", mse));
-        }
+		// Calcul et affichage du PSNR / MSE
+		if (bufferedOriginale != null && bufferedDebruitee != null) {
 
-        updateClip();
-    }
+			double mse = ImageFinale.mse(bufferedOriginale, bufferedDebruitee);
+			double psnr = ImageFinale.psnr(mse);
 
-    private void updateClip() {
-        double width = stackPane.getWidth();
-        double height = stackPane.getHeight();
-        double proportion = sliderTransition.getValue();
+			labelPSNR.setText(String.format("PSNR : %.2f dB", psnr));
+			labelSE.setText(String.format("MSE : %.2f", mse));
+		}
 
-        clipRect.setWidth(width * proportion);
-        clipRect.setHeight(height);
-    }
+		updateClip();
+	}
+
+	/**
+	 * Met à jour dynamiquement la largeur du rectangle de clipping en fonction de
+	 * la valeur du slider et de la taille du conteneur. Crée un effet visuel
+	 * permettant de comparer deux images côte à côte.
+	 */
+	private void updateClip() {
+		double width = stackPane.getWidth();
+		double height = stackPane.getHeight();
+		double proportion = sliderTransition.getValue();
+
+		clipRect.setWidth(width * proportion);
+		clipRect.setHeight(height);
+	}
 }

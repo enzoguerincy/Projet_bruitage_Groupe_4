@@ -231,7 +231,7 @@ public class MethodesController implements ControllerByMain {
 		List<Vecteur> vecteurs;
 
 		if (DataHolder.getModeSelectionne() == DataHolder.Mode.GLOBAL) {
-			patchs = ImageBruitee.extractPatchs(img, taillePatch);
+			patchs = ImageBruitee.extractPatchs4(img, taillePatch);
 		} else {
 			patchs = ImageBruitee.decoupeImage(img, 32, 8); // blocs de 32x32
 		}
@@ -246,12 +246,12 @@ public class MethodesController implements ControllerByMain {
 		// Calcul du lambda
 		switch (DataHolder.getCalculSelectionne()) {
 		case VISU:
-			lambda = 0.5 * (Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
-					DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth()));
+			lambda = Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
+					DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth());
 			break;
 		case BAYES:
-			lambda = 4 * (Seuillage.calculSeuilBayesShrink(Math.pow(DataHolder.getNiveauBruitage(), 2),
-					Seuillage.calculerVarianceXb(vecteurs)));
+			lambda = Seuillage.calculSeuilBayesShrink(Math.pow(DataHolder.getNiveauBruitage(), 2),
+					Seuillage.calculerVarianceXb(vecteurs));
 			break;
 		case SLIDER:
 			lambda = sliderV.getValue();

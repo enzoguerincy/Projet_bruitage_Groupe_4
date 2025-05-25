@@ -6,14 +6,28 @@ import java.util.List;
 import org.apache.commons.math3.linear.*;
 
 public class CollectionVecteur {
+	
+	  /** Liste des vecteurs contenus dans la collection. */
     private List<Vecteur> vecteurs;
+
+    /** Nombre total de vecteurs dans la collection. */
     private int nbVecteur;
 
+    /**
+     * Construit une nouvelle collection de vecteurs à partir d'une liste.
+     *
+     * @param vecteurs La liste de vecteurs à inclure.
+     */
     public CollectionVecteur(List<Vecteur> vecteurs) {
         this.vecteurs = vecteurs;
         this.nbVecteur = vecteurs.size();
     }
 
+    /**
+     * Calcule le vecteur moyen de la collection.
+     *
+     * @return Un vecteur représentant la moyenne des vecteurs de la collection.
+     */
     public Vecteur calculerVecteurMoyen() {
         int dim = vecteurs.get(0).dimension();
         double[] moyenne = new double[dim];
@@ -31,6 +45,11 @@ public class CollectionVecteur {
         return new Vecteur(moyenne);
     }
 
+    /**
+     * Calcule la matrice de covariance de la collection de vecteurs.
+     *
+     * @return Une matrice de covariance (tableau 2D).
+     */
     public double[][] calculerCovariance() {
         Vecteur moyenne = calculerVecteurMoyen();
         int d = moyenne.dimension();
@@ -53,6 +72,11 @@ public class CollectionVecteur {
         return covariance;
     }
 
+    /**
+     * Centre les vecteurs en soustrayant le vecteur moyen.
+     *
+     * @return Une liste de vecteurs centrés.
+     */
     public List<Vecteur> calculerVecteurCentré() {
         Vecteur moyenne = calculerVecteurMoyen();
         List<Vecteur> vecteursCentres = new ArrayList<>();
@@ -68,7 +92,11 @@ public class CollectionVecteur {
         return vecteursCentres;
     }
 
-    // MoyCov() : façade qui appelle moyenne, covariance et centrage
+    /**
+     * Méthode façade qui retourne la moyenne, la covariance et les vecteurs centrés.
+     *
+     * @return Un objet contenant la moyenne, la covariance et les vecteurs centrés.
+     */
     public MoyCovResult moyCov() {
         Vecteur moyenne = this.calculerVecteurMoyen();
         double[][] covariance = this.calculerCovariance();
@@ -77,7 +105,9 @@ public class CollectionVecteur {
         return new MoyCovResult(moyenne, covariance, centres);
     }
 
-    // Classe interne ou externe pour stocker les résultats
+    /**
+     * Conteneur de résultats pour la moyenne, la covariance et les vecteurs centrés.
+     */
     public static class MoyCovResult {
         public Vecteur moyenne;
         public double[][] covariance;
@@ -89,11 +119,17 @@ public class CollectionVecteur {
             this.vecteursCentres = vecteursCentres;
         }
     }
+
+    /**
+     * Applique l'Analyse en Composantes Principales (ACP) à une liste de vecteurs.
+     *
+     * @param vecteurs Liste de vecteurs à analyser.
+     * @return Liste des composantes principales (vecteurs propres).
+     */
     public static List<Vecteur> acp(List<Vecteur> vecteurs) {
         int nbVecteurs = vecteurs.size();
         int dim = vecteurs.get(0).dimension();
 
-        // Calcul du vecteur moyen
         double[] moyenne = new double[dim];
         for (Vecteur v : vecteurs) {
             for (int i = 0; i < dim; i++) {
@@ -104,7 +140,6 @@ public class CollectionVecteur {
             moyenne[i] /= nbVecteurs;
         }
 
-        // Centrage des vecteurs
         double[][] donneesCentrees = new double[nbVecteurs][dim];
         for (int i = 0; i < nbVecteurs; i++) {
             Vecteur v = vecteurs.get(i);
@@ -113,14 +148,11 @@ public class CollectionVecteur {
             }
         }
 
-        // Matrice de covariance
         RealMatrix M = MatrixUtils.createRealMatrix(donneesCentrees);
         RealMatrix covariance = M.transpose().multiply(M).scalarMultiply(1.0 / nbVecteurs);
 
-        // Décomposition en valeurs propres
         EigenDecomposition eig = new EigenDecomposition(covariance);
 
-        // Construction de la base orthonormale (vecteurs propres)
         List<Vecteur> baseOrthonormale = new ArrayList<>();
         for (int i = 0; i < dim; i++) {
             double[] composantes = eig.getEigenvector(i).toArray();
@@ -129,8 +161,14 @@ public class CollectionVecteur {
 
         return baseOrthonormale;
     }
-    
-    // Méthode auxiliaire à ajouter aussi dans CollectionVecteur
+
+    /**
+     * Calcule le produit scalaire entre deux vecteurs.
+     *
+     * @param v1 Premier vecteur.
+     * @param v2 Deuxième vecteur.
+     * @return Produit scalaire (double).
+     */
     private double produitScalaire(Vecteur v1, Vecteur v2) {
         double sum = 0.0;
         for (int i = 0; i < v1.dimension(); i++) {
@@ -139,17 +177,22 @@ public class CollectionVecteur {
         return sum;
     }
 
+    /**
+     * Projette une liste de vecteurs sur une base orthonormée.
+     *
+     * @param U Base orthonormée (vecteurs propres).
+     * @param Vc Vecteurs centrés à projeter.
+     * @return Liste des contributions projetées (coordonnées dans la base).
+     */
     public List<Vecteur> proj(List<Vecteur> U, List<Vecteur> Vc) {
         List<Vecteur> contributions = new ArrayList<>();
 
         for (Vecteur vi : Vc) {
             double[] coeffs = new double[U.size()];
-
             for (int j = 0; j < U.size(); j++) {
                 Vecteur uj = U.get(j);
                 coeffs[j] = produitScalaire(vi, uj);
             }
-
             contributions.add(new Vecteur(coeffs));
         }
 
@@ -206,20 +249,21 @@ public class CollectionVecteur {
     }
 
     /**
-     * Reconstruit une liste de patchs à partir de leurs vecteurs projetés (contributions PCA).
+     * Reconstruit des patchs image à partir de leurs projections PCA.
      *
-     * @param projections La liste des vecteurs projetés (contributions) + position (classe Vecteur)
-     * @param basePCA     La base PCA (matrice [64][nbComposantes])
-     * @param vecteurMoyen Le vecteur moyen (taille 64)
-     * @param taillePatch La taille des patchs (ex: 8)
-     * @return Liste des patchs reconstruits (image + position)
+     * @param projections Contributions projetées (vecteurs).
+     * @param base Base PCA.
+     * @param moyenne Vecteur moyen des données d’origine.
+     * @param taillePatch Taille du patch (ex : 8).
+     * @param patchsOriginaux Liste de patchs originaux (pour les positions).
+     * @return Liste des patchs reconstruits (images avec positions).
      */
     public static List<Patch> reconstruirePatchsDepuisContributions(
             List<Vecteur> projections,
-            double[][] base, // base U : [d][k]
+            double[][] base, 
             double[] moyenne,
             int taillePatch,
-            List<Patch> patchsOriginaux // ⚠️ nouveau paramètre
+            List<Patch> patchsOriginaux 
     ) {
         List<Patch> patchs = new ArrayList<>();
 
@@ -228,7 +272,7 @@ public class CollectionVecteur {
             int dim = base.length;
             int nbComposantes = base[0].length;
 
-            // Produit U * alpha + moyenne
+            
             double[] reconstruit = new double[dim];
             for (int i = 0; i < dim; i++) {
                 for (int j = 0; j < nbComposantes; j++) {
@@ -255,18 +299,24 @@ public class CollectionVecteur {
         }
 
         return patchs;
-    }
+    	}
 
-    public static double[][] toMatriceBase(List<Vecteur> base) {
-        int dim = base.get(0).valeurs.length;
-        int k = base.size();
-        double[][] matrice = new double[dim][k];
-        for (int j = 0; j < k; j++) {
-            for (int i = 0; i < dim; i++) {
-                matrice[i][j] = base.get(j).valeurs[i];
-            }
-        }
-        return matrice;
-    }
+	    /**
+	     * Convertit une base de vecteurs en une matrice de taille 2x2.
+	     *
+	     * @param base Liste des vecteurs de la base.
+	     * @return Matrice double[][] représentant la base.
+	     */
+	    public static double[][] toMatriceBase(List<Vecteur> base) {
+	        int dim = base.get(0).valeurs.length;
+	        int k = base.size();
+	        double[][] matrice = new double[dim][k];
+	        for (int j = 0; j < k; j++) {
+	            for (int i = 0; i < dim; i++) {
+	                matrice[i][j] = base.get(j).valeurs[i];
+	            }
+	        }
+	        return matrice;
+	    }
 
 }

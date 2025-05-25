@@ -7,7 +7,7 @@
 
 <BorderPane fx:id="root" xmlns="http://javafx.com/javafx/21"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="Controle.MainController" prefHeight="800.0"
+	fx:controller="controle.MainController" prefHeight="800.0"
 	prefWidth="1200.0" stylesheets="@style.css">
 
 	<top>
@@ -34,8 +34,6 @@
 
 				<Region VBox.vgrow="ALWAYS" />
 
-				<Button mnemonicParsing="false" prefHeight="68.0"
-					prefWidth="178.0" styleClass="button-collection" text="Collection" />
 
 				<Region minHeight="30" />
 

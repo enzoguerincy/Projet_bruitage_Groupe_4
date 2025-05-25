@@ -1,4 +1,4 @@
-package Abstraction;
+package abstraction;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
@@ -8,13 +8,13 @@ public class Main {
     public static void main(String[] args) {
         try {
             // === PARAMÈTRES ===
-            String cheminImage = "images_test/lemurien.jpeg";
+            String cheminImage = "images_test/pexels-pixabay-355747.jpg";
             double sigma = 20;
             int taillePatch = 8;
-            double lambda = 50;
 
             // === 1. Charger l'image originale ===
             BufferedImage imageOriginale = ImageIO.read(new File(cheminImage));
+            double lambda = Seuillage.calculSeuilVisuShrink(sigma, imageOriginale.getHeight()*imageOriginale.getWidth());
 
             // === 2. Ajouter du bruit ===
             BufferedImage imageBruitee = ImageBruitee.noising(imageOriginale, sigma);
@@ -22,7 +22,7 @@ public class Main {
 
             // === 3. MODE GLOBAL ===
             System.out.println("==== MODE ACP GLOBALE ====");
-            List<Patch> patchsG = ImageBruitee.extractPatchs(imageBruitee, taillePatch);
+            List<Patch> patchsG = ImageBruitee.extractPatchs4(imageBruitee, taillePatch);
             List<Vecteur> vecteursG = ImageBruitee.vectorPatchs(patchsG);
             CollectionVecteur cvG = new CollectionVecteur(vecteursG);
             CollectionVecteur.MoyCovResult mcrG = cvG.moyCov();
@@ -88,7 +88,7 @@ public class Main {
             double psnrLU = ImageFinale.psnr(mseLU);
             System.out.printf("LOCAL DUR    : MSE = %.2f | PSNR = %.2f dB%n", mseLU, psnrLU);
 
-            System.out.println("Toutes les images et mesures ont été générées dans out/global/ et out/local/");
+            System.out.println("✅ Toutes les images et mesures ont été générées dans out/global/ et out/local/");
 
         } catch (Exception e) {
             e.printStackTrace();

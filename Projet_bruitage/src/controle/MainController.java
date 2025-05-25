@@ -1,8 +1,9 @@
-package Controle;
+package controle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -15,11 +16,11 @@ public class MainController {
     @FXML private VBox zoomContainer;
     @FXML private Slider sliderZoom;
     @FXML private Label labelInsertion, labelBruitage, labelMethode, labelResultat;
-    
+
     private boolean insertionEffectuee = false;
     private boolean bruitageEffectue = false;
     private boolean methodeChoisie = false;
-
+    
     private boolean menuVisible = true;
     private ImageView currentImageView = null;
 
@@ -93,7 +94,7 @@ public class MainController {
     
     @FXML
     private void goToInsertion() {
-        loadView("/Presentation/page_menu.fxml");
+        loadView("/presentation/page_menu.fxml");
         surlignerLabelPage("Insertion");
     }
 
@@ -103,7 +104,7 @@ public class MainController {
             showAlert("Étape requise", "Veuillez d'abord insérer une image avant d'effectuer le bruitage.");
             return;
         }
-        loadView("/Presentation/page_bruitage.fxml");
+        loadView("/presentation/page_bruitage.fxml");
         surlignerLabelPage("Bruitage");
     }
 
@@ -113,7 +114,7 @@ public class MainController {
             showAlert("Étape requise", "Veuillez d'abord effectuer le bruitage avant de choisir une méthode.");
             return;
         }
-        loadView("/Presentation/page_methodes.fxml");
+        loadView("/presentation/page_methodes.fxml");
         surlignerLabelPage("Méthode");
     }
 
@@ -123,7 +124,7 @@ public class MainController {
             showAlert("Étape requise", "Veuillez d'abord choisir une méthode avant de voir les résultats.");
             return;
         }
-        loadView("/Presentation/page_resultat.fxml");
+        loadView("/presentation/page_resultat.fxml");
         surlignerLabelPage("Résultat");
     }
 
@@ -131,6 +132,27 @@ public class MainController {
         this.currentImageView = imageView;
         appliquerZoom();
     }
+    
+    private Canvas currentCanvas = null;
+
+    public void setCurrentCanvas(Canvas canvas) {
+        this.currentCanvas = canvas;
+        appliquerZoomCanvas();
+    }
+
+    public void appliquerZoomCanvas() {
+        if (sliderZoom == null || currentCanvas == null)
+            return;
+
+        double scale = sliderZoom.getValue();
+        currentCanvas.setScaleX(scale);
+        currentCanvas.setScaleY(scale);
+    }
+    
+    public double getZoomValue() {
+        return sliderZoom != null ? sliderZoom.getValue() : 1.0;
+    }
+    
 
     public void appliquerZoom() {
         if (sliderZoom == null || currentImageView == null || currentImageView.getImage() == null)

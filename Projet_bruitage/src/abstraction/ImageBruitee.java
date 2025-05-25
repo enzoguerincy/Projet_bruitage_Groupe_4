@@ -1,4 +1,4 @@
-package Abstraction;
+package abstraction;
 import java.awt.Color;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -102,13 +102,13 @@ public class ImageBruitee {
            }
            y_compt +=s/2;
        }
-       if  (x_compt < largeur - s) {
+       if  (y_compt < hauteur - s) {
     	   for (int x = 0; x <= largeur - s; x=x+s/2) {
-               BufferedImage patchImage = image.getSubimage(x,largeur-s , s, s);
+               BufferedImage patchImage = image.getSubimage(x,hauteur-s , s, s);
                patchs.add(new Patch(patchImage, x,  hauteur-s));
            }
        }
-       if  (y_compt < largeur - s) {
+       if  (x_compt < largeur - s) {
 	       for (int y = 0; y <= hauteur - s; y=y+s/2) {
 	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
 	           patchs.add(new Patch(patchImage, largeur-s, y));
@@ -142,19 +142,54 @@ public class ImageBruitee {
            }
            y_compt+=decal;
        }
-       if  (x_compt < largeur - s) {
+       if  (y_compt < hauteur - s) {
 	       for (int x = 0; x <= largeur - s; x=x+decal) {
 	           BufferedImage patchImage = image.getSubimage(x,hauteur-s , s, s);
 	           patchs.add(new Patch(patchImage, x, hauteur-s));
 	       }
        }
-       if  (y_compt < largeur - s) {
+       if  (x_compt < largeur - s) {
 	       for (int y = 0; y <= hauteur - s; y=y+decal) {
 	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
 	           patchs.add(new Patch(patchImage, largeur-s, y));
 	       }
        }
        BufferedImage patchImage = image.getSubimage((largeur-s),(hauteur-s) , s, s);
+       patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
+       
+
+       return patchs;
+   }
+   
+   public static List<Patch> extractPatchs4(BufferedImage image, int s) {
+       int largeur = image.getWidth();
+       int hauteur = image.getHeight();
+       List<Patch> patchs = new ArrayList<>();
+       int x_compt = 0;
+       int y_compt = 0;
+
+       for (int y = 0; y <= hauteur - s; y=y+s-1) {
+    	   x_compt = 0;
+           for (int x = 0; x <= largeur - s; x=x+s-1) {
+               BufferedImage patchImage = image.getSubimage(x, y, s, s);
+               patchs.add(new Patch(patchImage, x, y));
+               x_compt+=s/2;
+           }
+           y_compt +=s/2;
+       }
+       if  (y_compt < hauteur - s) {
+    	   for (int x = 0; x < largeur - s; x=x+s-1) {
+               BufferedImage patchImage = image.getSubimage(x,hauteur-s , s, s);
+               patchs.add(new Patch(patchImage, x,  hauteur-s));
+           }
+       }
+       if  (x_compt < largeur - s) {
+	       for (int y = 0; y < hauteur - s; y=y+s-1) {
+	           BufferedImage patchImage = image.getSubimage(largeur-s,y , s, s);
+	           patchs.add(new Patch(patchImage, largeur-s, y));
+	       }
+       }
+       BufferedImage patchImage = image.getSubimage(largeur-s,hauteur-s , s, s);
        patchs.add(new Patch(patchImage, largeur-s, hauteur-s));
        
 
@@ -220,37 +255,35 @@ public class ImageBruitee {
     * @return Liste des patchs (BufferedImage + position)
     */
    public static List<Patch> decoupeImage(BufferedImage image, int Ws, int s) {
-       int largeur = image.getWidth();
-       int hauteur = image.getHeight();
-       List<Patch> patchs = new ArrayList<>();
+	    int largeur = image.getWidth();
+	    int hauteur = image.getHeight();
+	    List<Patch> patchs = new ArrayList<>();
 
-       // Décalage pour le balayage (peut être égal à Ws ou s selon recouvrement souhaité)
-       int pas = Ws;
+	    int pas = Ws;
 
-       // Parcours vertical
-       for (int yBloc = 0; yBloc <= hauteur - s; yBloc += pas) {
-           // Ajuste en bas si on dépasse
-           int yEff = (yBloc + Ws > hauteur) ? hauteur - Ws : yBloc;
+	    for (int yBloc = 0; yBloc <= hauteur - s; yBloc += pas) {
+	        int yEff = (yBloc + Ws > hauteur) ? hauteur - Ws : yBloc;
 
-           for (int xBloc = 0; xBloc <= largeur - s; xBloc += pas) {
-               // Ajuste à droite si on dépasse
-               int xEff = (xBloc + Ws > largeur) ? largeur - Ws : xBloc;
+	        for (int xBloc = 0; xBloc <= largeur - s; xBloc += pas) {
+	            int xEff = (xBloc + Ws > largeur) ? largeur - Ws : xBloc;
 
-               // Bloc local (Ws x Ws)
-               BufferedImage bloc = image.getSubimage(xEff, yEff, Ws, Ws);
+	            // Bloc local (Ws x Ws)
+	            BufferedImage bloc = image.getSubimage(xEff, yEff, Ws, Ws);
 
-               // Extraction des patchs s × s dans le bloc
-               for (int y = 0; y <= Ws - s; y++) {
-                   for (int x = 0; x <= Ws - s; x++) {
-                       BufferedImage patchImg = bloc.getSubimage(x, y, s, s);
-                       patchs.add(new Patch(patchImg, xEff + x, yEff + y));
-                   }
-               }
-           }
-       }
+	            // Extraire les patchs à l'aide de extractPatchs4
+	            List<Patch> patchsBloc = extractPatchs4(bloc, s);
 
-       return patchs;
-   }
+	            // Ajuster les coordonnées des patchs
+	            for (Patch p : patchsBloc) {
+	                patchs.add(new Patch(p.image, p.x + xEff, p.y + yEff));
+	            }
+	        }
+	    }
+
+	    return patchs;
+	}
+
+
 
    
    

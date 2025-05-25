@@ -1,21 +1,24 @@
-package Controle;
+package controle;
 
 import java.awt.image.BufferedImage;
 
+import abstraction.ImageBruitee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-import Abstraction.ImageBruitee;
-
 public class BruitageController implements ControllerByMain {
 
     private MainController mainController;
+    
+    @FXML
+    private Button boutonMethodes;
 
     @FXML
     private ImageView imageView;
@@ -31,7 +34,7 @@ public class BruitageController implements ControllerByMain {
 
     @FXML
     private BorderPane rootPane;
-    
+
     @Override
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -45,10 +48,11 @@ public class BruitageController implements ControllerByMain {
             mainController.surlignerLabelPage("Bruitage");
         }
     }
-
+    
     @FXML
     public void initialize() {
         BufferedImage buffered = DataHolder.getImageBruitee();
+        boutonMethodes.setDisable(true);
         if (buffered == null) {
             buffered = DataHolder.getImageOriginale();
         }
@@ -69,7 +73,6 @@ public class BruitageController implements ControllerByMain {
 
         sliderV.valueProperty().addListener((obs, oldVal, newVal) -> {
             labelValeur.setText(String.format("%.0f", newVal.doubleValue()));
-            
         });
     }
 
@@ -92,12 +95,14 @@ public class BruitageController implements ControllerByMain {
             mainController.setCurrentImageView(imageView);
             mainController.appliquerZoom();
         }
+        boutonMethodes.setDisable(false);
+
     }
 
     @FXML
     private void handleAllerMethodes(ActionEvent event) {
     	mainController.setBruitageEffectue(true);
-        mainController.loadView("/Presentation/page_methodes.fxml");
+        mainController.loadView("/presentation/page_methodes.fxml");
         mainController.surlignerLabelPage("Méthode");
     }
 }

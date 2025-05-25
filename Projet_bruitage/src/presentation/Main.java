@@ -1,6 +1,6 @@
-package Presentation;
+package presentation;
 
-import Controle.MainController;
+import controle.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,15 +10,15 @@ import javafx.scene.Parent;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Presentation/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/main.fxml"));
         Parent root = loader.load();
         MainController controller = loader.getController();
 
-        // Charge la première vue (menu par exemple)
-        controller.loadView("/Presentation/page_menu.fxml");
+        controller.loadView("/presentation/page_menu.fxml");
         controller.surlignerLabelPage("Insertion");
 
         Scene scene = new Scene(root);
+        primaryStage.setHeight(1000); 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Débruitage ACP");
         primaryStage.show();

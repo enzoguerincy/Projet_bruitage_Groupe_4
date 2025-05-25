@@ -1,4 +1,4 @@
-package Controle;
+package controle;
 
 import java.awt.image.BufferedImage;
 

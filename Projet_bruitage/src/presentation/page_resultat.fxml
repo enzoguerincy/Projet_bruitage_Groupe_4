@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="controle.ResultatController" stylesheets="@style.css"
+	styleClass="center-pane">
+
+	<top>
+		<Label text="Résultat du Débruitage"
+			style="-fx-font-size: 24px; -fx-font-weight: bold;"
+			BorderPane.alignment="CENTER" />
+	</top>
+
+	<center>
+		<StackPane fx:id="stackPane" styleClass="image-container">
+			<!-- Image bruitée en fond -->
+			<ImageView fx:id="imageBruiteeView" preserveRatio="true"
+				fitWidth="800" fitHeight="600" />
+
+			<!-- Conteneur clippé pour balayage -->
+			<StackPane fx:id="clipContainer">
+				<ImageView fx:id="imageDebruiteeView" preserveRatio="true"
+					fitWidth="800" fitHeight="600" />
+			</StackPane>
+		</StackPane>
+	</center>
+
+	<bottom>
+		<VBox spacing="10" alignment="CENTER">
+			<padding>
+				<Insets top="20" right="20" bottom="20" left="20" />
+			</padding>
+
+			<ComboBox fx:id="comboChoixComparaison" prefWidth="300"
+				styleClass="combo-box">
+				<items>
+					<FXCollections fx:factory="observableArrayList">
+						<java.lang.String fx:value="Bruitée vs Débruitée" />
+						<java.lang.String
+							fx:value="Originale vs Débruitée" />
+					</FXCollections>
+				</items>
+			</ComboBox>
+
+			<Label text="Balayage" styleClass="zoom-label" />
+			<Slider fx:id="sliderTransition" min="0" max="1" value="0.5"
+				blockIncrement="0.01" prefWidth="400" styleClass="slider-v" />
+
+			<Label fx:id="labelPSNR" text="PSNR : "
+				styleClass="slider-label" />
+			<Label fx:id="labelSE" text="SE : " styleClass="slider-label" />
+		</VBox>
+	</bottom>
+
+</BorderPane>

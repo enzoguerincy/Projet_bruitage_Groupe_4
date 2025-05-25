@@ -6,7 +6,7 @@
 
 <HBox xmlns="http://javafx.com/javafx/21"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="Controle.MethodesController" spacing="50"
+	fx:controller="controle.MethodesController" spacing="50"
 	alignment="CENTER" styleClass="center-pane" stylesheets="@style.css">
 
 	<!-- COLONNE GAUCHE : Tous les boutons -->

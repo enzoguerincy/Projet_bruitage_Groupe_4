@@ -1,4 +1,4 @@
-package Controle;
+package controle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,9 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import Abstraction.ImageBruitee;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
+
+import abstraction.ImageBruitee;
 
 public class MenuController implements ControllerByMain {
 
@@ -65,7 +67,7 @@ public class MenuController implements ControllerByMain {
     @FXML
     private void handleValiderImage(ActionEvent event) {
     	mainController.setInsertionEffectuee(true);
-        mainController.loadView("/Presentation/page_bruitage.fxml");
+        mainController.loadView("/presentation/page_bruitage.fxml");
         mainController.surlignerLabelPage("Bruitage");
     }
 }

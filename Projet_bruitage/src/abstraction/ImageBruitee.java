@@ -9,14 +9,24 @@ import java.util.List;
 
 public class ImageBruitee {
     
-	
+	/**
+     * Convertit une image JavaFX en BufferedImage.
+     * @param fxImage L'image JavaFX.
+     * @return L'image BufferedImage équivalente.
+     */
     public static BufferedImage fromFXImage(Image fxImage) {
         return SwingFXUtils.fromFXImage(fxImage, null);
     }
 
+    /**
+     * Convertit une BufferedImage en image JavaFX.
+     * @param bufferedImage L'image BufferedImage.
+     * @return L'image JavaFX équivalente.
+     */
     public static Image toFXImage(BufferedImage bufferedImage) {
         return SwingFXUtils.toFXImage(bufferedImage, null);
     }
+    
 	/**
  	* Ajoute du bruit gaussien à une image.
  	* @param img Image originale.
@@ -47,7 +57,13 @@ public class ImageBruitee {
 
     	return noisyImage;
 	}
-	
+   
+	/**
+     * Calcule une mesure de dissemblance entre deux images.
+     * @param img_base Image originale.
+     * @param img_bruitee Image bruitée.
+     * @return Moyenne des différences normalisées par pixel (entre 0 et 1).
+     */
    public static float comparaison_bruitee_base( BufferedImage img_base, BufferedImage img_bruitee) {
 	   int largeur = img_base.getWidth();
    	   int hauteur = img_base.getHeight();
@@ -86,6 +102,12 @@ public class ImageBruitee {
        return patchs;
    }
    
+   /**
+    * Extrait les patchs s×s avec un recouvrement de 50%.
+    * @param image L'image source.
+    * @param s Taille du patch.
+    * @return Liste des patchs avec position.
+    */
    public static List<Patch> extractPatchs2(BufferedImage image, int s) {
        int largeur = image.getWidth();
        int hauteur = image.getHeight();
@@ -121,6 +143,12 @@ public class ImageBruitee {
        return patchs;
    }
    
+   /**
+    * Extrait des patchs en fonction d’un pourcentage de la largeur de l’image.
+    * @param image L'image source.
+    * @param pers Pourcentage (entre 0 et 1) pour définir la taille des patchs.
+    * @return Liste des patchs avec position.
+    */
    public static List<Patch> extractPatchs3(BufferedImage image, double pers) {
        int largeur = image.getWidth();
        int hauteur = image.getHeight();
@@ -161,6 +189,12 @@ public class ImageBruitee {
        return patchs;
    }
    
+   /**
+    * Extrait les patchs s×s avec un recouvrement important (s-1).
+    * @param image Image source.
+    * @param s Taille des patchs.
+    * @return Liste des patchs avec position.
+    */
    public static List<Patch> extractPatchs4(BufferedImage image, int s) {
        int largeur = image.getWidth();
        int hauteur = image.getHeight();
@@ -247,12 +281,11 @@ public class ImageBruitee {
    	
    
    /**
-    * Découpe toute l’image en blocs de taille Ws × Ws (avec recouvrement partiel si besoin),
-    * et extrait les patchs s × s dans chaque bloc.
-    * @param image Image d'entrée
-    * @param Ws Taille du bloc (ex : 32 ou 64)
-    * @param s Taille des patchs (ex : 8)
-    * @return Liste des patchs (BufferedImage + position)
+    * Découpe une image en blocs de taille Ws×Ws et extrait des patchs s×s de chaque bloc.
+    * @param image Image source.
+    * @param Ws Taille des blocs (ex : 32 ou 64).
+    * @param s Taille des patchs à extraire (ex : 8).
+    * @return Liste des patchs avec position ajustée.
     */
    public static List<Patch> decoupeImage(BufferedImage image, int Ws, int s) {
 	    int largeur = image.getWidth();
@@ -288,9 +321,9 @@ public class ImageBruitee {
    
    
    /**
-    * Transforme chaque patch en un vecteur de taille s².
-    * @param patchs La liste des patchs (image + position).
-    * @return Liste de vecteurs (double[]) et leur position.
+    * Transforme chaque patch d'image en un vecteur de taille s².
+    * @param patchs Liste des patchs à transformer.
+    * @return Liste de vecteurs (double[]) associés à leur position.
     */
    public static List<Vecteur> vectorPatchs(List<Patch> patchs) {
        List<Vecteur> listvecteurs = new ArrayList<>();

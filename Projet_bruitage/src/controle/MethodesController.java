@@ -33,6 +33,11 @@ public class MethodesController implements ControllerByMain {
 
 	private MainController mainController;
 
+	/**
+	 * Injecte le contrôleur principal.
+	 *
+	 * @param mainController le contrôleur principal de navigation
+	 */
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 	}
@@ -86,7 +91,10 @@ public class MethodesController implements ControllerByMain {
 			+ "-fx-font-weight: bold;" + "-fx-font-size: 18px;" + "-fx-background-radius: 20 0 0 20;"
 			+ "-fx-border-radius: 20 0 0 20;";
 
-	
+	/**
+	 * Initialise les composants de la vue. Gère le style, le comportement des
+	 * boutons de sélection et affiche l’image courante.
+	 */
 	@FXML
 	public void initialize() {
 
@@ -95,12 +103,12 @@ public class MethodesController implements ControllerByMain {
 			buffered = DataHolder.getImageOriginale();
 		}
 
-        if (buffered != null) {
-            Image fxImage = ImageBruitee.toFXImage(buffered);
-            imageView.setImage(fxImage);
-            imageView.setFitWidth(fxImage.getWidth());
-            imageView.setFitHeight(fxImage.getHeight());
-        }
+		if (buffered != null) {
+			Image fxImage = ImageBruitee.toFXImage(buffered);
+			imageView.setImage(fxImage);
+			imageView.setFitWidth(fxImage.getWidth());
+			imageView.setFitHeight(fxImage.getHeight());
+		}
 
 		if (mainController != null) {
 			System.out.println("test");
@@ -109,6 +117,7 @@ public class MethodesController implements ControllerByMain {
 			mainController.surlignerLabelPage("Méthode");
 		}
 
+		// Sélection mode local/global
 		btnLocal.setOnAction(e -> {
 			btnLocal.setStyle(violetStyleLeft);
 			btnGlobal.setStyle(blancStyleRight);
@@ -121,6 +130,7 @@ public class MethodesController implements ControllerByMain {
 			DataHolder.setModeSelectionne(DataHolder.Mode.GLOBAL);
 		});
 
+		// Sélection seuillage doux/dur
 		btnDoux.setOnAction(e -> {
 			btnDoux.setStyle(violetStyleLeft);
 			btnDur.setStyle(blancStyleRight);
@@ -133,6 +143,7 @@ public class MethodesController implements ControllerByMain {
 			DataHolder.setSeuillageSelectionne(DataHolder.Seuillage.DUR);
 		});
 
+		// Calcul seuil VisuShrink
 		btnVisu.setOnAction(e -> {
 			double sigma = DataHolder.getNiveauBruitage();
 			BufferedImage img = DataHolder.getImageBruitee();
@@ -149,6 +160,7 @@ public class MethodesController implements ControllerByMain {
 			DataHolder.setCalculSelectionne(DataHolder.Calcul.VISU);
 		});
 
+		// Calcul seuil BayesShrink
 		btnBayes.setOnAction(e -> {
 			double sigma = DataHolder.getNiveauBruitage();
 			double sigma2 = sigma * sigma;
@@ -167,17 +179,26 @@ public class MethodesController implements ControllerByMain {
 			DataHolder.setCalculSelectionne(DataHolder.Calcul.BAYES);
 		});
 
+		// Slider de seuil personnalisé
 		sliderV.valueProperty().addListener((obs, oldVal, newVal) -> {
 			labelValeur.setText(String.valueOf(newVal.intValue()));
 			DataHolder.setCalculSelectionne(DataHolder.Calcul.SLIDER);
 		});
 	}
 
+	/**
+	 * Clone les vecteurs pour éviter de modifier les originaux.
+	 *
+	 * @param original la liste d'origine
+	 * @return une copie indépendante des vecteurs
+	 */
 	private static List<Vecteur> cloneVecteurs(List<Vecteur> original) {
 		return original.stream().map(v -> new Vecteur(v.valeurs.clone())).toList();
 	}
 
-
+	/**
+	 * Redirige vers la page de résultat après le débruitage.
+	 */
 	@FXML
 	private void handleAllerResultat(ActionEvent event) {
 		mainController.setMethodeChoisie(true);
@@ -185,6 +206,13 @@ public class MethodesController implements ControllerByMain {
 		mainController.surlignerLabelPage("Résultat");
 	}
 
+	/**
+	 * Applique le processus complet de débruitage de l’image : extraction de
+	 * patchs, réduction par ACP, seuillage, reconstruction, sauvegarde.
+	 *
+	 * @param event l’action utilisateur sur le bouton "Débruiter"
+	 * @throws IOException en cas d'erreur de sauvegarde
+	 */
 	@FXML
 	public void onDebruiter(ActionEvent event) throws IOException {
 		System.out.println("Débruitage lancé !");
@@ -203,7 +231,7 @@ public class MethodesController implements ControllerByMain {
 		List<Vecteur> vecteurs;
 
 		if (DataHolder.getModeSelectionne() == DataHolder.Mode.GLOBAL) {
-			patchs = ImageBruitee.extractPatchs4(img, taillePatch);
+			patchs = ImageBruitee.extractPatchs(img, taillePatch);
 		} else {
 			patchs = ImageBruitee.decoupeImage(img, 32, 8); // blocs de 32x32
 		}
@@ -218,19 +246,17 @@ public class MethodesController implements ControllerByMain {
 		// Calcul du lambda
 		switch (DataHolder.getCalculSelectionne()) {
 		case VISU:
-			lambda = Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
-					DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth());
+			lambda = 0.5 * (Seuillage.calculSeuilVisuShrink(DataHolder.getNiveauBruitage(),
+					DataHolder.getImageOriginale().getHeight() * DataHolder.getImageOriginale().getWidth()));
 			break;
 		case BAYES:
-			lambda = Seuillage.calculSeuilBayesShrink(Math.pow(DataHolder.getNiveauBruitage(), 2),
-					Seuillage.calculerVarianceXb(vecteurs));
+			lambda = 4 * (Seuillage.calculSeuilBayesShrink(Math.pow(DataHolder.getNiveauBruitage(), 2),
+					Seuillage.calculerVarianceXb(vecteurs)));
 			break;
 		case SLIDER:
-			lambda = sliderV.getValue(); // On suppose que le slider modifie directement cette valeur
+			lambda = sliderV.getValue();
 			break;
 		}
-
-		// Application du seuillage
 		if (DataHolder.getSeuillageSelectionne() == DataHolder.Seuillage.DOUX) {
 			List<Vecteur> projDoux = cloneVecteurs(projBase);
 			for (Vecteur v : projDoux)
@@ -243,7 +269,6 @@ public class MethodesController implements ControllerByMain {
 			projFinal = projDur;
 		}
 
-		// Reconstruction finale
 		List<Patch> rec = CollectionVecteur.reconstruirePatchsDepuisContributions(projFinal, baseMat,
 				mcr.moyenne.valeurs, taillePatch, patchs);
 		imageFinale = ImageBruitee.reconstructPatchs(rec, img.getHeight(), img.getWidth());

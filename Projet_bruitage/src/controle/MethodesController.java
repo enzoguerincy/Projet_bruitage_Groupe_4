@@ -231,7 +231,7 @@ public class MethodesController implements ControllerByMain {
 		List<Vecteur> vecteurs;
 
 		if (DataHolder.getModeSelectionne() == DataHolder.Mode.GLOBAL) {
-			patchs = ImageBruitee.extractPatchs4(img, taillePatch);
+			patchs = ImageBruitee.extractPatchs(img, taillePatch);
 		} else {
 			patchs = ImageBruitee.decoupeImage(img, 32, 8); // blocs de 32x32
 		}
